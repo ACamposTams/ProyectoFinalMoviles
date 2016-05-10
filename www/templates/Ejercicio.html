@@ -1,0 +1,74 @@
+<!-- Arreglar el problema de los videos -->
+<ion-view view-title="Ejercicio">
+  <ion-content class="padding">
+    <div class="row responsive-sm">
+        <div class="col"><div class="list card" ng-repeat="datosEjercicio in datosEjercicio">
+          <div class="item item-text-wrap">
+            <h2>{{datosEjercicio.nombreEjercicio}}</h2>
+          </div>
+          <div class="item item-body">
+            <!-- <iframe width="560" height="315" src={{trustSrc(datosEjercicio.linkVideo)}} frameborder="0" allowfullscreen></iframe> -->
+            <p>
+                {{datosEjercicio.descripcion}}
+            </p>
+          </div>
+          <button class="button button-balanced button-block" ng-click="editModal(datosEjercicio)">Editar Ejercicio</button>
+          <button class="button button-assertive button-block" ng-click="delete(datosEjercicio)" ui-sref="sidemenu.Ejercicios">Eliminar Ejercicio</button>
+      </div></div>
+    </div>
+  </ion-content>
+</ion-view>
+<script id="edit.html" type="text/ng-template">
+        <div class="modal">
+            <ion-header-bar class="bar-dark">
+                <button class="button button-icon icon ion-ios-close-outline" ng-click="nulo()"></button>
+                <h1 class="title"> Editar Ejercicio</h1>
+            </ion-header-bar>
+            <ion-content ng-repeat="datosEjercicio in datosEjercicio">
+                <form>
+                    <div class="list">
+                        <label class="item item-input">
+                        <span class="input-label">Nombre:</span>
+                            <input type="text" ng-model="nombreEjercicio" init-from-form>
+                        </label>
+                        <label class="item item-input">
+                        <span class="input-label">Descripcion:</span>
+                            <input type="text" ng-model="descripcion" init-from-form>
+                        </label>
+                        <label class="item item-input">
+                        <span class="input-label">Categoría:</span>
+                            <input type="text" ng-model="categoria" init-from-form>
+                        </label>
+                        <label class="item item-input">
+                        <span class="input-label">Link a Video:</span>
+                            <input type="text" ng-model="linkVideo" init-from-form>
+                        </label>
+                        <button class="button button-balanced button-block" ng-click="edit({{datosEjercicio.id_ejercicio}},nombreEjercicio,descripcion,categoria,linkVideo);">
+                            Guardar Ejercicio
+                        </button>
+                    </div>
+                </form>
+        </ion-content>
+        </div>
+</script>
+
+
+<!--View que muestra la información de un producto específico, por el momento solo se le agrega funcionalidad al producto 1 pero se debe de mostrar toda la información del producto seleccionado, se obtiene de la base de datos
+<ion-view view-title="Producto">
+  <ion-content class="padding">
+    <div class="row responsive-sm">
+        <div class="col"><div class="list card">
+          <div class="item item-text-wrap">
+            <h2>Ejercicio</h2>
+            <p>De donde se obtuvo la receta</p>
+          </div>
+          <div class="item item-body">
+            <img src="./img/food.jpg">
+            <p>
+                Información del Ejercicio incluyendo la receta, precio, ingredientes y calorías.
+            </p>
+          </div>
+      </div></div>
+    </div>
+  </ion-content>
+</ion-view>-->
