@@ -93,6 +93,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   }
  })
 
+.state('sidemenu.rutinas', {
+  url: '/Rutinas',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/Rutinas.html",
+      controller: 'ControllerMostrarRutinas'
+    }
+  }
+ })
+
+.state('sidemenu.rutina', {
+  url: '/Rutina/:id_rutina',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/Rutina.html",
+      controller: 'ControllerDetallesRutina'
+    }
+  }
+ })
+
  // .state('sidemenu.registro', {
  //  url: '/registro',
  //  views: {

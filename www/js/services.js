@@ -29,6 +29,9 @@ angular.module('starter.services', [])
         },
         delete: function(id,tipo){
             return $http.get(baseUrl+tipo+'.php?op=delete&id='+id);
+        },
+        getWorkouts: function(id) {
+            return $http.get(baseUrl+'Rutinas.php?op=getWorkouts&id='+id);
         }
     };
 })

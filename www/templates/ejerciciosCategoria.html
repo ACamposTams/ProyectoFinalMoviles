@@ -2,16 +2,19 @@
 	<ion-content class="padding">
 	        <div class="row responsive-sm" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
 	            <div class="card" ng-repeat="datosEjercicio in datosEjercicios" href="#/tab/alumno/{{datosalumno.id}}">
-		  			<div class="item item-text-wrap">
+		  			<div class="item item-button-right">
 			            {{datosEjercicio.nombreEjercicio}}
+			            <a class="button" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
+                      		<i class="icon ion-chevron-right"></i>
+                  		</a>
 			            <!-- <div class="item item-body">
 							<img src="{{datosEjercicio.imagen}}" style="width:304px;height:228px;">
 						</div> -->
-		                <div class="button-bar ng-fit-text">
+		               <!--  <div class="button-bar ng-fit-text">
 		  					<a class="button button-block button-energized" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
   								Información
 							</a>
-						</div>
+						</div> -->
 		            </div>
 	            </div>
 			</div>
