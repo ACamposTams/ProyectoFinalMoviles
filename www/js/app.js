@@ -63,12 +63,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
- .state('sidemenu.ejercicio', {
-  url: '/Ejercicio/:id_ejercicio',
+ .state('sidemenu.ejercicioRutina', {
+  url: '/EjercicioRutina/:id_rutina/:id_ejercicio',
   views: {
     'menuContent' :{
-      templateUrl: "templates/Ejercicio.html",
-      controller: 'ControllerDetallesEjercicio'
+      templateUrl: "templates/EjercicioRutina.html",
+      controller: 'ControllerDetallesEjercicioRutina'
+    }
+  }
+ })
+
+ .state('sidemenu.ejercicioCategoria', {
+  url: '/EjercicioCategoria/:id_categoria/:id_ejercicio',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/EjercicioCategoria.html",
+      controller: 'ControllerDetallesEjercicioCategoria'
     }
   }
  })

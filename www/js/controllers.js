@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ControllerDetallesEjercicio',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory){
+.controller('ControllerDetallesEjercicioCategoria',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
   
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
@@ -64,7 +64,112 @@ angular.module('starter.controllers', [])
                     title: "Info",
                     message: "Ejercicio eliminado"
                 });
-                $ionicHistory.backView();
+                $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
+            });
+    };
+
+    $ionicModal.fromTemplateUrl('edit.html', function(modal){
+        $scope.taskModal = modal;
+  }, {
+            scope : $scope,
+            animation : 'slide-in-up' 
+  });
+        
+        $scope.showAlert = function(msg) {
+            $ionicPopup.alert({
+                title: msg.title,
+                template: msg.message,
+                okText: 'Ok',
+                okType: 'button-positive'
+            });
+          };
+    
+    $scope.editModal = function(datosEjercicio){
+            $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
+            $scope.descripcion = datosEjercicio.descripcion;
+            $scope.categoria = datosEjercicio.categoria;
+            $scope.linkVideo = datosEjercicio.linkVideo;
+            $scope.taskModal.show();
+  };
+  
+  $scope.nulo = function(){
+            $scope.taskModal.hide();
+            $scope.showDataId();
+  };
+
+  //Arreglar que no se tenga que pasar el id para editar 
+  $scope.edit = function(id_ejercicio,nombreEjercicio,descripcion,categoria,linkVideo){
+            if (!id_ejercicio){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el Id"
+                });
+            }else if (!nombreEjercicio){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el nombre del ejercicio"
+                });
+            }else if(!descripcion){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca la descripcion del ejercicio"
+                });
+            }else if(!categoria){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca la categoria del ejercicio"
+                });
+            }else if(!linkVideo){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el link al video del ejercicio"
+                });
+            }else{
+                $scope.id_ejercicio = id_ejercicio;
+                $scope.nombreEjercicio = nombreEjercicio;
+                $scope.categoria = categoria;
+                $scope.descripcion = descripcion;
+                $scope.linkVideo = linkVideo;
+                servicios.update({
+                    'id_ejercicio' : id_ejercicio,
+                    'nombreEjercicio': nombreEjercicio,
+                    'categoria': categoria,
+                    'descripcion': descripcion,
+                    'linkVideo': linkVideo,
+                },'Ejercicio').then(function(resp) {
+                  console.log('Exito', resp);
+                  $scope.showAlert({
+                        title: "Info",
+                        message: "Los datos has sido actualizados"
+                    });
+                },function(err) {
+                  console.error('Error', err);
+                }); 
+            }
+  };
+})
+
+.controller('ControllerDetallesEjercicioRutina',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
+  
+  $scope.showDataId = function() {
+      servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
+            $scope.datosEjercicio = datosEjercicio;
+        });   
+    };
+
+  $scope.trustSrc = function(src) {
+    return $sce.trustAsResourceUrl(src);
+  }
+
+    $scope.showDataId();
+
+    $scope.delete = function (datosEjercicio){
+        servicios.delete(datosEjercicio.id_ejercicio,'Ejercicio').success(function(data){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Ejercicio eliminado"
+                });
+                $window.location.href= '#/side/Rutina/'+$stateParams.id_rutina;
             });
     };
 
@@ -164,6 +269,7 @@ angular.module('starter.controllers', [])
   $scope.showData = function() {
       servicios.getCategoria($stateParams.id_categoria).success(function(data) {
             $scope.datosEjercicios = data;
+            $scope.id_categoria = $stateParams.id_categoria;
         }).finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
         });
@@ -251,6 +357,7 @@ angular.module('starter.controllers', [])
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_rutina,"Rutinas").success(function(datosRutina) {
             $scope.datosRutina = datosRutina;
+            $scope.id_rutina = $stateParams.id_rutina;
         });   
     };
 
@@ -430,7 +537,7 @@ angular.module('starter.controllers', [])
   $scope.terminarRutina = function(){
     $scope.showAlert({
         title: "Info",
-        message: "RutinaAgregada"
+        message: "Rutina Agregada"
       });
     $state.go('sidemenu.rutinas');
   }
