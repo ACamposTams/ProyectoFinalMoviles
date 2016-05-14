@@ -38,6 +38,9 @@ angular.module('starter.services', [])
         },
         agregarEjercicioRutina: function(id_ejercicio,id_rutina){
             return $http.get(baseUrl+'Rutinas.php?op=addExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
+        },
+        deleteEjercicio: function(id_ejercicio,id_rutina){
+            return $http.get(baseUrl+'Rutinas.php?op=deleteExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
         }
     };
 })

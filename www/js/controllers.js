@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ControllerDetallesEjercicio',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+.controller('ControllerDetallesEjercicio',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory){
   
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
@@ -64,6 +64,7 @@ angular.module('starter.controllers', [])
                     title: "Info",
                     message: "Ejercicio eliminado"
                 });
+                $ionicHistory.backView();
             });
     };
 
@@ -259,101 +260,107 @@ angular.module('starter.controllers', [])
     });
   }
 
-  // $scope.trustSrc = function(src) {
-  //   return $sce.trustAsResourceUrl(src);
-  // }
-
   $scope.showDataId();
   $scope.showRoutineWorkouts();
 
-  //   $scope.delete = function (datosEjercicio){
-  //       servicios.delete(datosEjercicio.id_ejercicio,'Ejercicio').success(function(data){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Ejercicio eliminado"
-  //               });
-  //           });
-  //   };
-
-  //   $ionicModal.fromTemplateUrl('edit.html', function(modal){
-  //       $scope.taskModal = modal;
-  // }, {
-  //           scope : $scope,
-  //           animation : 'slide-in-up' 
-  // });
-        
-  //       $scope.showAlert = function(msg) {
-  //           $ionicPopup.alert({
-  //               title: msg.title,
-  //               template: msg.message,
-  //               okText: 'Ok',
-  //               okType: 'button-positive'
-  //           });
-  //         };
+  $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
     
-  //   $scope.editModal = function(datosEjercicio){
-  //           $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
-  //           $scope.descripcion = datosEjercicio.descripcion;
-  //           $scope.categoria = datosEjercicio.categoria;
-  //           $scope.linkVideo = datosEjercicio.linkVideo;
-  //           $scope.taskModal.show();
-  // };
-  
-  // $scope.nulo = function(){
-  //           $scope.taskModal.hide();
-  //           $scope.showDataId();
-  // };
+  $scope.delete = function (datosRutina){
+      servicios.delete(datosRutina.id_rutina,'Rutinas').success(function(data){
+              $scope.showAlert({
+                  title: "Info",
+                  message: "Rutina eliminada"
+              });
+          });
+  };
 
-  // //Arreglar que no se tenga que pasar el id para editar 
-  // $scope.edit = function(id_ejercicio,nombreEjercicio,descripcion,categoria,linkVideo){
-  //           if (!id_ejercicio){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Introduzca el Id"
-  //               });
-  //           }else if (!nombreEjercicio){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Introduzca el nombre del ejercicio"
-  //               });
-  //           }else if(!descripcion){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Introduzca la descripcion del ejercicio"
-  //               });
-  //           }else if(!categoria){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Introduzca la categoria del ejercicio"
-  //               });
-  //           }else if(!linkVideo){
-  //               $scope.showAlert({
-  //                   title: "Info",
-  //                   message: "Introduzca el link al video del ejercicio"
-  //               });
-  //           }else{
-  //               $scope.id_ejercicio = id_ejercicio;
-  //               $scope.nombreEjercicio = nombreEjercicio;
-  //               $scope.categoria = categoria;
-  //               $scope.descripcion = descripcion;
-  //               $scope.linkVideo = linkVideo;
-  //               servicios.update({
-  //                   'id_ejercicio' : id_ejercicio,
-  //                   'nombreEjercicio': nombreEjercicio,
-  //                   'categoria': categoria,
-  //                   'descripcion': descripcion,
-  //                   'linkVideo': linkVideo,
-  //               },'Ejercicio').then(function(resp) {
-  //                 console.log('Exito', resp);
-  //                 $scope.showAlert({
-  //                       title: "Info",
-  //                       message: "Los datos has sido actualizados"
-  //                   });
-  //               },function(err) {
-  //                 console.error('Error', err);
-  //               }); 
-  //           }
-  // };
+    $ionicModal.fromTemplateUrl('edit.html', function(modal){
+        $scope.taskModal = modal;
+  }, {
+            scope : $scope,
+            animation : 'slide-in-up' 
+  });
+        
+        $scope.showAlert = function(msg) {
+            $ionicPopup.alert({
+                title: msg.title,
+                template: msg.message,
+                okText: 'Ok',
+                okType: 'button-positive'
+            });
+          };
+    
+    $scope.editModal = function(datosRutina){
+            $scope.nombreRutina = datosRutina.nombreRutina;
+            $scope.descripcion = datosRutina.descripcion;
+            $scope.taskModal.show();
+            $scope.showRoutineWorkouts();
+  };
+  
+  $scope.nulo = function(){
+            $scope.taskModal.hide();
+            $scope.showDataId();
+            $scope.showRoutineWorkouts();
+  };
+
+  //Arreglar que no se tenga que pasar el id para editar 
+  $scope.edit = function(id_rutina,nombreRutina,descripcion){
+            if (!id_rutina){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el Id"
+                });
+            }else if (!nombreRutina){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el nombre de la Rutina"
+                });
+            }else if(!descripcion){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca la descripcion de la rutina"
+                });
+            }else{
+                $scope.id_rutina = id_rutina;
+                $scope.nombreRutina = nombreRutina;
+                $scope.descripcion = descripcion;
+                servicios.update({
+                    'id_rutina' : id_rutina,
+                    'nombreRutina': nombreRutina,
+                    'descripcion': descripcion,
+                },'Rutinas').then(function(resp) {
+                  console.log('Exito', resp);
+                  $scope.showAlert({
+                        title: "Info",
+                        message: "Los datos has sido actualizados"
+                    });
+                },function(err) {
+                  console.error('Error', err);
+                });
+                $scope.taskModal.hide();
+                $scope.showDataId();
+                $scope.showRoutineWorkouts();
+            }
+  };
+
+  $scope.deleteExercise = function (datosEjercicio){
+        servicios.deleteEjercicio(datosEjercicio.id_ejercicio,$stateParams.id_rutina).success(function(data){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Ejercicio eliminado de la rutina"
+                });
+                $scope.taskModal.hide();
+                $scope.showRoutineWorkouts();
+            });
+    };
+
 })
 
 .controller('ControllerAgregarRutina', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
@@ -419,6 +426,15 @@ angular.module('starter.controllers', [])
       });
     })
   }
+
+  $scope.terminarRutina = function(){
+    $scope.showAlert({
+        title: "Info",
+        message: "RutinaAgregada"
+      });
+    $state.go('sidemenu.rutinas');
+  }
+
 })
 
 .controller('ControllerAgregarCategoria', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
