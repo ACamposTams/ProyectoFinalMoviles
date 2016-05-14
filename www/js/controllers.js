@@ -1,6 +1,38 @@
 angular.module('starter.controllers', [])
 
-.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+//$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
+.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform){
+
+    //definicion de collection para accesar a la imagen
+    $scope.collection = {
+      selectedImage : ''
+    };
+
+    //funcion para accesar al carrete y seleccionar una imagen
+    $ionicPlatform.ready(function() {
+ 
+        $scope.obtenerImagen = function() {       
+            // Image picker will load images according to these settings
+            var options = {
+                maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
+                width: 800,
+                height: 800,
+                quality: 80            // Higher is better
+            };
+ 
+            $cordovaImagePicker.getPictures(options).then(function (results) {
+                // Loop through acquired images
+                for (var i = 0; i < results.length; i++) {
+                    // We loading only one image so we can use it like this
+                    $scope.collection.selectedImage = results[i];
+                }
+            }, function(error) {
+                console.log('Error: ' + JSON.stringify(error));    // In case of error
+            });
+        };  
+ 
+    });
+
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
