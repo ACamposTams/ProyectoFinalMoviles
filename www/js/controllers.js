@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
@@ -12,22 +12,17 @@ angular.module('starter.controllers', [])
     
     $scope.datosEjercicio={};
     $scope.guardarEjercicio = function(){
-        if (!scope.datosEjercicio.nombreEjercicio){
+        if (!$scope.datosEjercicio.nombreEjercicio){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca el nombre del ejercicio"
             });
-        }else if (!scope.datosEjercicio.descripcion){
+        }else if (!$scope.datosEjercicio.descripcion){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca la descripcion del ejercicio"
             });
-        }else if (!scope.datosEjercicio.categoria){
-            $scope.showAlert({
-                tittle: "Info",
-                message: "Introduzca la categoria del ejercicio"
-            });
-        }else if (!scope.datosEjercicio.linkVideo){
+        }else if (!$scope.datosEjercicio.linkVideo){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca el link al video del ejercicio"
@@ -36,13 +31,14 @@ angular.module('starter.controllers', [])
             servicios.create({
                 nombreEjercicio: $scope.datosEjercicio.nombreEjercicio,
                 descripcion: $scope.datosEjercicio.descripcion,
-                categoria: $scope.datosEjercicio.categoria,
+                categoria: $stateParams.id_categoria,
                 linkVideo: $scope.datosEjercicio.linkVideo,
             },'Ejercicio').success(function(data){
                 $scope.showAlert({
                     title: "Info",
-                    message: "Auto guardado"
+                    message: "Ejercicio guardado"
                 });
+                $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
             });
         }  
     };
@@ -163,7 +159,7 @@ angular.module('starter.controllers', [])
     $scope.showData();
 })
 
-.controller('ControllerEjerciciosCategoria', function($scope,$stateParams,$ionicPopup,servicios){
+.controller('ControllerEjerciciosCategoria', function($scope,$stateParams,$ionicPopup,servicios,$window){
   $scope.showData = function() {
       servicios.getCategoria($stateParams.id_categoria).success(function(data) {
             $scope.datosEjercicios = data;
@@ -172,6 +168,10 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
+
+  $scope.addExcercises = function() {
+    $window.location.href= '#/side/nuevoEjercicio/'+$stateParams.id_categoria;
+  }
 })
 
 .controller('ControllerRegistro', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
@@ -227,7 +227,7 @@ angular.module('starter.controllers', [])
             },'Usuario').success(function(data){
                 $scope.showAlert({
                     title: "Info",
-                    message: "Auto guardado"
+                    message: "Usuario guardado"
                 });
             });
         }  
@@ -356,6 +356,100 @@ angular.module('starter.controllers', [])
   // };
 })
 
+.controller('ControllerAgregarRutina', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+   $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+    
+    $scope.datosRutina={};
+    $scope.guardarRutina = function(){
+        if (!$scope.datosRutina.nombreRutina){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Introduzca el nombre de la rutina"
+            });
+        }else if (!$scope.datosRutina.descripcion){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Introduzca la descripcion del ejercicio"
+            });
+        }else{
+            servicios.create({
+                nombreRutina: $scope.datosRutina.nombreRutina,
+                descripcion: $scope.datosRutina.descripcion,
+            },'Rutinas').success(function(data){
+                servicios.getIdRutina($scope.datosRutina.nombreRutina).success(function(data2){
+                  console.log(data2[0].id_rutina);
+                  $window.location.href= '#/side/ejerciciosNuevaRutina/'+data2[0].id_rutina;
+                });
+            });
+        }  
+    };
+})
+
+.controller('ControllerAgregarEjerciciosRutina', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+  $scope.showData = function() {
+      servicios.getAll('Ejercicio').success(function(data) {
+            $scope.datosEjercicios = data;
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+    $scope.showData();
+
+  $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+
+  $scope.agregarARutina = function(id_ejercicio) {
+    servicios.agregarEjercicioRutina(id_ejercicio,$stateParams.id_rutina).success(function(data){
+      $scope.showAlert({
+        title: "Info",
+        message: "Ejercicio Agregado"
+      });
+    })
+  }
+})
+
+.controller('ControllerAgregarCategoria', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+   $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+    
+    $scope.datosCategoria={};
+    $scope.guardarCategoria = function(){
+        if (!$scope.datosCategoria.categoria){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Introduzca el nombre de la categoria"
+            });
+        }else{
+            servicios.create({
+                categoria: $scope.datosCategoria.categoria
+            },'Categorias').success(function(data){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Categoria guardada"
+                });
+            });
+        }  
+    };
+})
 
 .controller('AppCtrl', function($scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {
 

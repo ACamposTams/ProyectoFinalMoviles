@@ -32,6 +32,12 @@ angular.module('starter.services', [])
         },
         getWorkouts: function(id) {
             return $http.get(baseUrl+'Rutinas.php?op=getWorkouts&id='+id);
+        },
+        getIdRutina: function(nombre){
+            return $http.get(baseUrl+'Rutinas.php?op=getIdByName&name='+nombre); 
+        },
+        agregarEjercicioRutina: function(id_ejercicio,id_rutina){
+            return $http.get(baseUrl+'Rutinas.php?op=addExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
         }
     };
 })

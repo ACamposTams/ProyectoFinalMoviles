@@ -74,6 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
  })
 
 .state('sidemenu.categorias', {
+  cache: false,
   url: '/Categorias',
   views: {
     'menuContent' :{
@@ -84,6 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
  })
 
 .state('sidemenu.ejerciciosCategoria', {
+  cache: false,
   url: '/Ejercicios/:id_categoria',
   views: {
     'menuContent' :{
@@ -94,6 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
  })
 
 .state('sidemenu.rutinas', {
+  cache: false,
   url: '/Rutinas',
   views: {
     'menuContent' :{
@@ -104,11 +107,52 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
  })
 
 .state('sidemenu.rutina', {
+  cache: false,
   url: '/Rutina/:id_rutina',
   views: {
     'menuContent' :{
       templateUrl: "templates/Rutina.html",
       controller: 'ControllerDetallesRutina'
+    }
+  }
+ })
+
+.state('sidemenu.nuevaRutina', {
+  url: '/nuevaRutina',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/nuevaRutina.html",
+      controller: 'ControllerAgregarRutina'
+    }
+  }
+ })
+
+.state('sidemenu.ejerciciosNuevaRutina', {
+  url: '/ejerciciosNuevaRutina/:id_rutina',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/ejerciciosNuevaRutina.html",
+      controller: 'ControllerAgregarEjerciciosRutina'
+    }
+  }
+ })
+
+.state('sidemenu.nuevaCategoria', {
+  url: '/nuevaCategoria',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/nuevaCategoria.html",
+      controller: 'ControllerAgregarCategoria'
+    }
+  }
+ })
+
+.state('sidemenu.nuevoEjercicio', {
+  url: '/nuevoEjercicio/:id_categoria',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/nuevoEjercicio.html",
+      controller: 'ControllerAgregarEjercicio'
     }
   }
  })
