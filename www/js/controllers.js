@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 //Controller para hacer login
-.controller('ControllerLogin', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$ionicHistory) {
+.controller('ControllerLogin', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$ionicHistory) {
 
     $scope.showAlert = function(msg) {
       $ionicPopup.alert({
@@ -14,14 +14,16 @@ angular.module('starter.controllers', [])
 
     $scope.comprobarLogin = function(email,password){
       servicios.login(email,password,'Usuarios').success(function(data) {
-
       if(data.length == 1){
         //esto es para evitar que salga un botón de regreso a la vista anterior
         $ionicHistory.nextViewOptions({
           disableBack: true
         });
         //ir al home
-        $state.go('sidemenu.home');
+        usuario.id_usuario = data[0].id_usuario;
+        usuario.usuario = data[0].usuario;
+        usuario.admin = data[0].esAdmin;
+        $window.location.href= '#/side/home';
       }
       else{
         $scope.showAlert({
@@ -38,7 +40,7 @@ angular.module('starter.controllers', [])
 
 //$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
 //$cordovaGeolocation es para obtener la localización del usuario
-.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
+.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $scope.localizacion = {
@@ -143,7 +145,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('ControllerDetallesEjercicioCategoria',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
+.controller('ControllerDetallesEjercicioCategoria',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
   
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
@@ -247,9 +249,22 @@ angular.module('starter.controllers', [])
                 $scope.taskModal.hide(); 
             }
   };
+
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
 })
 
-.controller('ControllerDetallesEjercicioRutina',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
+.controller('ControllerDetallesEjercicioRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
   
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
@@ -353,9 +368,22 @@ angular.module('starter.controllers', [])
                 $scope.taskModal.hide(); 
             }
   };
+
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
 })
 
-.controller('ControllerMostrarCategorias', function($scope,$state,$ionicPopup,servicios){
+.controller('ControllerMostrarCategorias', function(usuario,$scope,$state,$ionicPopup,servicios){
   $scope.showData = function() {
       servicios.getAll('Categorias').success(function(data) {
             $scope.datosCategorias = data;
@@ -364,9 +392,21 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
+
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
 })
 
-.controller('ControllerEjerciciosCategoria', function($scope,$stateParams,$ionicPopup,servicios,$window){
+.controller('ControllerEjerciciosCategoria', function(usuario,$scope,$stateParams,$ionicPopup,servicios,$window){
   $scope.showData = function() {
       servicios.getCategoria($stateParams.id_categoria).success(function(data) {
             $scope.datosEjercicios = data;
@@ -380,9 +420,22 @@ angular.module('starter.controllers', [])
   $scope.addExcercises = function() {
     $window.location.href= '#/side/nuevoEjercicio/'+$stateParams.id_categoria;
   }
+
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
 })
 
-.controller('ControllerRegistro', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+.controller('ControllerRegistro', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
@@ -435,14 +488,15 @@ angular.module('starter.controllers', [])
             },'Usuarios').success(function(data){
                 $scope.showAlert({
                     title: "Info",
-                    message: "Usuario guardado"
+                    message: "Usuario Creado"
                 });
+                $state.go('sidemenu.home');
             });
         }  
     };
 })
 
-.controller('ControllerMostrarRutinas', function($scope,$state,$ionicPopup,servicios){
+.controller('ControllerMostrarRutinas', function(usuario,$scope,$state,$ionicPopup,servicios){
   $scope.showData = function() {
       servicios.getAll('Rutinas').success(function(data) {
             $scope.datosRutinas = data;
@@ -451,9 +505,21 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
+
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
 })
 
-.controller('ControllerDetallesRutina',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+.controller('ControllerDetallesRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
   
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_rutina,"Rutinas").success(function(datosRutina) {
@@ -569,9 +635,21 @@ angular.module('starter.controllers', [])
             });
     };
 
+  $scope.show = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
 })
 
-.controller('ControllerAgregarRutina', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+.controller('ControllerAgregarRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
@@ -607,7 +685,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ControllerAgregarEjerciciosRutina', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+.controller('ControllerAgregarEjerciciosRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
   $scope.showData = function() {
       servicios.getAll('Ejercicio').success(function(data) {
             $scope.datosEjercicios = data;
@@ -664,7 +742,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ControllerAgregarCategoria', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+.controller('ControllerAgregarCategoria', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
@@ -694,7 +772,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('AppCtrl', function($scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {
+.controller('AppCtrl', function(usuario,$scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {
 
   // Form data for the login modal
   $scope.loginData = {};

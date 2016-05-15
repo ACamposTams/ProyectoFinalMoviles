@@ -2,7 +2,7 @@
 	<ion-content class="padding">
 	        <div class="row responsive-sm" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
 	            <div class="card" ng-repeat="datosEjercicio in datosEjercicios" href="#/tab/alumno/{{datosalumno.id}}">
-		  			<div class="item item-button-right">
+		  			<div class="item item-button-right" >
 			            {{datosEjercicio.nombreEjercicio}}
 			            <a class="button" href="#/side/EjercicioCategoria/{{id_categoria}}/{{datosEjercicio.id_ejercicio}}">
                       		<i class="icon ion-chevron-right"></i>
@@ -18,8 +18,8 @@
 		            </div>
 	            </div>
 			</div>
-			<a class="button button-block button-balanced" ng-click="addExcercises()">
+			<button id="boton" class="button button-block button-balanced" ng-if="show()" ng-click="addExcercises()">
   				Agregar Ejercicio
-			</a>
+			</button>
 	</ion-content>
 </ion-view>

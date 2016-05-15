@@ -25,6 +25,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   });
 })
 
+.factory('usuario', function() {
+  var id_usuario = 0;
+  var usuario = "";
+  var admin = 0;
+  var usuarioTotal = [id_usuario,usuario,admin];
+
+  id_usuario.getId = function (idNuevo) {
+    id_usuario = idNuevo;
+  }
+
+  usuario.getUsuario = function (usuarioNuevo) {
+    usuario = usuarioNuevo;
+  }
+
+  admin.getAdmin = function (adminNuevo) {
+    admin = adminNuevo;
+  }
+
+  return usuarioTotal;
+
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/side/login')

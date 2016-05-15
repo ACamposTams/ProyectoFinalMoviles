@@ -23,9 +23,9 @@
                   <p>{{datosEjercicio.especificacion}}</p>
               </div>
           </div>
-          <a class="button button-balanced button-block" href ="#/side/ejerciciosNuevaRutina/{{id_rutina}}">Agregar Ejercicios a la Rutina</a>
-          <button class="button button-energized button-block" ng-click="editModal(datosRutina)">Editar Rutina</button>
-          <button class="button button-assertive button-block" ng-click="delete(datosRutina)" ui-sref="sidemenu.rutinas">Eliminar Rutina</button>
+          <button id="botonAgregar" class="button button-balanced button-block" ng-if="show()" href ="#/side/ejerciciosNuevaRutina/{{id_rutina}}">Agregar Ejercicios a la Rutina</button>
+          <button id="botonEditar" class="button button-energized button-block" ng-if="show()" ng-click="editModal(datosRutina)">Editar Rutina</button>
+          <button  id="botonEliminar" class="button button-assertive button-block" ng-if="show()" ng-click="delete(datosRutina)" ui-sref="sidemenu.rutinas">Eliminar Rutina</button>
       </div></div>
     </div>
   </ion-content>
