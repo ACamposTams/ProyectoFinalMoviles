@@ -525,12 +525,31 @@ angular.module('starter.controllers', [])
       });
     };
 
-  $scope.agregarARutina = function(id_ejercicio) {
-    servicios.agregarEjercicioRutina(id_ejercicio,$stateParams.id_rutina).success(function(data){
+  $ionicModal.fromTemplateUrl('edit.html', function(modal){
+        $scope.taskModal = modal;
+  }, {
+            scope : $scope,
+            animation : 'slide-in-up' 
+  });
+    
+    $scope.editModal = function(datosEjercicio){
+            console.log(datosEjercicio.id_ejercicio);
+            $scope.id_ejercicio = datosEjercicio.id_ejercicio;
+            $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
+            $scope.taskModal.show();
+  };
+  
+  $scope.nulo = function(){
+            $scope.taskModal.hide();
+  };
+
+  $scope.agregarARutina = function(id_ejercicio,especificaciones) {
+    servicios.agregarEjercicioRutina(id_ejercicio,$stateParams.id_rutina,especificaciones).success(function(data){
       $scope.showAlert({
         title: "Info",
         message: "Ejercicio Agregado"
       });
+      $scope.taskModal.hide();
     })
   }
 

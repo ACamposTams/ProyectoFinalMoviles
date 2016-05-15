@@ -4,7 +4,7 @@
         <div class="list" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
               <div class="item item-button-right" ng-repeat="datosEjercicio in datosEjercicios" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
                   {{datosEjercicio.nombreEjercicio}}
-                  <a class="button" ng-click="agregarARutina({{datosEjercicio.id_ejercicio}})">
+                  <a class="button" ng-click="editModal(datosEjercicio)">
                       <i class="icon ion-plus"></i>
                   </a>
               </div>
@@ -13,3 +13,28 @@
     </div>
   </ion-content>
 </ion-view>
+<script id="edit.html" type="text/ng-template">
+        <div class="modal">
+            <ion-header-bar class="bar-dark">
+                <button class="button button-icon icon ion-ios-close-outline" ng-click="nulo()"></button>
+                <h1 class="title">Completar Ejercicio</h1>
+            </ion-header-bar>
+            <ion-content>
+                <form>
+                    <div class="list">
+                        <label class="item item-input">
+                        <span class="input-label">Nombre:</span>
+                            <input type="text" ng-model="nombreEjercicio" init-from-form>
+                        </label>
+                        <label class="item item-input">
+                        <span class="input-label">Especificaciones:</span>
+                            <input type="text" ng-model="especificaciones" init-from-form>
+                        </label>
+                        <button class="button button-balanced button-block" ng-click="agregarARutina(id_ejercicio,especificaciones);">
+                            Guardar Rutina
+                        </button>
+                    </div>
+                </form>
+            </ion-content>
+        </div>
+</script>
