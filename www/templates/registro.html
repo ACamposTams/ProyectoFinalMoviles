@@ -2,25 +2,25 @@
 	<ion-content class="padding">
 		<div class="list">
 	  		<label class="item item-input">
-	    		<input type="text" ng-model="nombre" placeholder="Nombre">
+	    		<input type="text" ng-model="datosUsuario.nombre" placeholder="Nombre">
 	  		</label>
 	  		<label class="item item-input">
-	    		<input type="text" ng-model="apPaterno" placeholder="Apellido Paterno">
+	    		<input type="text" ng-model="datosUsuario.apPaterno" placeholder="Apellido Paterno">
 	  		</label>
 	  		<label class="item item-input">
-	    		<input type="text" ng-model="apMaterno" placeholder="Apellido Materno">
+	    		<input type="text" ng-model="datosUsuario.apMaterno" placeholder="Apellido Materno">
 	  		</label>
 	  		<label class="item item-input">
-	    		<input type="email" ng-model="email" placeholder="Email">
+	    		<input type="email" ng-model="datosUsuario.email" placeholder="Email">
 	  		</label>
 	  		<label class="item item-input">
-	    		<input type="text" ng-model="usuario" placeholder="Usuario">
+	    		<input type="text" ng-model="datosUsuario.usuario" placeholder="Usuario">
 	  		</label>
 	  		<label class="item item-input">
-	    		<input type="password" ng-model="password" ng-minlength="5" placeholder="Contraseña">
+	    		<input type="password" ng-model="datosUsuario.password" ng-minlength="5" placeholder="Contraseña">
 	  		</label>
 		</div>
-		<button class="button button-full button-dark" ng-disabled="!email || !password || !nombre || !apPaterno || !apMaterno || !usuario" ui-sref="sidemenu.home" menu-close>
+		<button class="button button-full button-dark" ng-disabled="!datosUsuario.email || !datosUsuario.password || !datosUsuario.nombre || !datosUsuario.apPaterno || !datosUsuario.apMaterno || !datosUsuario.usuario" ng-click="registrarUsuario()">
   			Registrarse
 		</button>
 	</ion-content>

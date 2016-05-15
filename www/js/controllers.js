@@ -1,5 +1,41 @@
 angular.module('starter.controllers', [])
 
+//Controller para hacer login
+.controller('ControllerLogin', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$ionicHistory) {
+
+    $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+
+    $scope.comprobarLogin = function(email,password){
+      servicios.login(email,password,'Usuarios').success(function(data) {
+
+      if(data.length == 1){
+        //esto es para evitar que salga un botón de regreso a la vista anterior
+        $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+        //ir al home
+        $state.go('sidemenu.home');
+      }
+      else{
+        $scope.showAlert({
+          title: "Datos inválidos",
+          message: "El email y/o la contraseña son incorrectos"
+        });
+      }
+        
+      })
+      
+    }
+
+})
+
 //$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
 //$cordovaGeolocation es para obtener la localización del usuario
 .controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
@@ -343,35 +379,35 @@ angular.module('starter.controllers', [])
           okType: 'button-positive'
       });
     };
-    
+
     $scope.datosUsuario={};
-    $scope.guardarEjercicio = function(){
-        if (!scope.datosUsuario.nombre){
+    $scope.registrarUsuario = function(){
+        if (!$scope.datosUsuario.nombre){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su nombre"
             });
-        }else if (!scope.datosUsuario.apPaterno){
+        }else if (!$scope.datosUsuario.apPaterno){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su apellido paterno"
             });
-        }else if (!scope.datosUsuario.apMaterno){
+        }else if (!$scope.datosUsuario.apMaterno){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su apellido materno"
             });
-        }else if (!scope.datosUsuario.email){
+        }else if (!$scope.datosUsuario.email){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su email"
             });
-        }else if (!scope.datosUsuario.usuario){
+        }else if (!$scope.datosUsuario.usuario){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su usuario"
             });
-        }else if (!scope.datosUsuario.contraseña){
+        }else if (!$scope.datosUsuario.password){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Introduzca su contraseña"
@@ -383,8 +419,8 @@ angular.module('starter.controllers', [])
                 apMaterno: $scope.datosUsuario.apMaterno,
                 email: $scope.datosUsuario.email,
                 usuario: $scope.datosUsuario.usuario,
-                contraseña: $scope.datosUsuario.contraseña
-            },'Usuario').success(function(data){
+                password: $scope.datosUsuario.password
+            },'Usuarios').success(function(data){
                 $scope.showAlert({
                     title: "Info",
                     message: "Usuario guardado"
@@ -648,13 +684,6 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -695,58 +724,4 @@ angular.module('starter.controllers', [])
       });
     };
 
-//Funcion que guarda los datos del vendedor
-  $scope.datosVendedor={};
-    $scope.guardarVendedor = function (){
-        if (!$scope.datosVendedor.nombre){
-            $scope.showAlert({
-                title: "Info",
-                message: "Introduzca el nombre del vendedor"
-            });
-        }else if(!$scope.datosVendedor.apellidos){
-            $scope.showAlert({
-                title: "Info",
-                message: "Introduzca sus apellidos"
-            });
-        }else if(!$scope.datosVendedor.email){
-            $scope.showAlert({
-                title: "Info",
-                message: "Introduzca su email"
-            });
-    }else if(!$scope.datosVendedor.password){
-            $scope.showAlert({
-                title: "Info",
-                message: "Introduzca su contraseña"
-            });
-        }else{
-            servicioVendedor.create({
-                nombre: $scope.datosVendedor.nombre,
-                apellidos: $scope.datosVendedor.apellidos,
-                email: $scope.datosVendedor.email,
-                password: $scope.datosVendedor.password
-            }).success(function(data){
-                $scope.showAlert({
-                    title: "Info",
-                    message: "Vendedor Registrado"
-                });
-                $state.go('app.inicio');
-            });
-        }  
-    };
-
-//Funcion que comprueba la identidad del usuario de acuerdo a la base de datos
-    $scope.comprobarLogin = function (email,password){
-        servicioVendedor.getPassword(email).success(function(data) {
-            $scope.datosVendedor = data;
-        })
-        if ($scope.datosVendedor.password == password){
-          $state.go('app.inicio');
-        }
-        else{
-          $scope.showAlert({
-                    title: "Info",
-                    message: "Acceso Inválido" + $scope.datosVendedor.password
-                });
-        }
-    }
 })
