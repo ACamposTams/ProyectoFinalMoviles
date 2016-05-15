@@ -20,6 +20,9 @@ angular.module('starter.services', [])
                 }
             });
         },
+        login: function(email,password,tipo){
+            return $http.get(baseUrl+tipo+'.php?op=login&email='+email+'&password='+password)
+        },
         update: function(datos,tipo){
             return $http.post(baseUrl+tipo+'.php?op=update',datos,{
                 headers: {
