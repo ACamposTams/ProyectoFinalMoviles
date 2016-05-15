@@ -3,20 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!-- Meta tag para checar que haya un plugin de whitelist (Cordova 4+) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+    <!-- Libreria de cordova para poder accessar al carrete para subir una foto -->
+    <!-- Se agregaron los siguientes plugins: 
+    cordova plugin add https://github.com/wymsee/cordova-imagePicker.git
+    cordova plugin add cordova-plugin-whitelist -->
+    <script src="js/ng-cordova.min.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>

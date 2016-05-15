@@ -1,6 +1,59 @@
 angular.module('starter.controllers', [])
 
-.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+//$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
+//$cordovaGeolocation es para obtener la localización del usuario
+.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $scope.localizacion = {
+      lat: '',
+      long: ''
+    };
+
+    //para obtener la localización se utilizó el plugin: 
+    //cordova plugin add cordova-plugin-geolocation
+    $scope.obtenerLocalizacion = function() {
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+          $scope.localizacion.lat  = position.coords.latitude
+          $scope.localizacion.long = position.coords.longitude
+        }, function(err) {
+          println("No se pudo accesar a la localización")
+      });
+    }
+    
+
+    //definicion de collection para accesar a la imagen
+    $scope.collection = {
+      selectedImage: ''
+    };
+
+    //funcion para accesar al carrete y seleccionar una imagen
+    $ionicPlatform.ready(function() {
+ 
+        $scope.obtenerImagen = function() {       
+            // Image picker will load images according to these settings
+            var options = {
+                maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
+                width: 800,
+                height: 800,
+                quality: 80            // Higher is better
+            };
+ 
+            $cordovaImagePicker.getPictures(options).then(function (results) {
+                //For que recoge las imágenes
+                for (var i = 0; i < results.length; i++) {
+                    // We loading only one image so we can use it like this
+                    $scope.collection.selectedImage = results[i];
+                }
+            }, function(error) {
+                console.log('Error: ' + JSON.stringify(error));    // In case of error
+            });
+        };  
+ 
+    });
+
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
