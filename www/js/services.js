@@ -36,8 +36,11 @@ angular.module('starter.services', [])
         getIdRutina: function(nombre){
             return $http.get(baseUrl+'Rutinas.php?op=getIdByName&name='+nombre); 
         },
-        agregarEjercicioRutina: function(id_ejercicio,id_rutina){
-            return $http.get(baseUrl+'Rutinas.php?op=addExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
+        agregarEjercicioRutina: function(id_ejercicio,id_rutina,especificaciones){
+            return $http.get(baseUrl+'Rutinas.php?op=addExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio+'&specifications='+especificaciones); 
+        },
+        deleteEjercicio: function(id_ejercicio,id_rutina){
+            return $http.get(baseUrl+'Rutinas.php?op=deleteExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
         }
     };
 })

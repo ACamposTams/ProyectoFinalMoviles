@@ -17,18 +17,19 @@
           <div class="list" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
               <div class="item item-button-right" ng-repeat="datosEjercicio in datosEjercicios" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
                   {{datosEjercicio.nombreEjercicio}}
-                  <a class="button" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
+                  <a class="button" href="#/side/EjercicioRutina/{{id_rutina}}/{{datosEjercicio.id_ejercicio}}">
                       <i class="icon ion-chevron-right"></i>
                   </a>
               </div>
           </div>
+          <a class="button button-balanced button-block" href ="#/side/ejerciciosNuevaRutina/{{id_rutina}}">Agregar Ejercicios a la Rutina</a>
           <button class="button button-balanced button-block" ng-click="editModal(datosRutina)">Editar Rutina</button>
-          <button class="button button-assertive button-block" ng-click="delete(datosRutina)" ui-sref="sidemenu.Rutinas">Eliminar Rutina</button>
+          <button class="button button-assertive button-block" ng-click="delete(datosRutina)" ui-sref="sidemenu.rutinas">Eliminar Rutina</button>
       </div></div>
     </div>
   </ion-content>
 </ion-view>
-<!-- <script id="edit.html" type="text/ng-template">
+<script id="edit.html" type="text/ng-template">
         <div class="modal">
             <ion-header-bar class="bar-dark">
                 <button class="button button-icon icon ion-ios-close-outline" ng-click="nulo()"></button>
@@ -45,19 +46,19 @@
                         <span class="input-label">Descripcion:</span>
                             <input type="text" ng-model="descripcion" init-from-form>
                         </label>
-                        <label class="item item-input">
-                        <span class="input-label">Categoría:</span>
-                            <input type="text" ng-model="categoria" init-from-form>
-                        </label>
-                        <label class="item item-input">
-                        <span class="input-label">Link a Video:</span>
-                            <input type="text" ng-model="linkVideo" init-from-form>
-                        </label>
-                        <button class="button button-balanced button-block" ng-click="edit({{datosRutina.id_Rutina}},nombreRutina,descripcion,categoria,linkVideo);">
+                        <div class="list" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
+                          <div class="item item-button-right" ng-repeat="datosEjercicio in datosEjercicios">
+                  {{datosEjercicio.nombreEjercicio}}
+                            <a class="button" ng-click="deleteExercise(datosEjercicio)">
+                              <i class="icon ion-close"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <button class="button button-balanced button-block" ng-click="edit({{datosRutina.id_rutina}},nombreRutina,descripcion);">
                             Guardar Rutina
                         </button>
                     </div>
                 </form>
-        </ion-content>
+            </ion-content>
         </div>
-</script> -->
+</script>
