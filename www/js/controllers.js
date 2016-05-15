@@ -233,7 +233,8 @@ angular.module('starter.controllers', [])
                     });
                 },function(err) {
                   console.error('Error', err);
-                }); 
+                });
+                $scope.taskModal.hide(); 
             }
   };
 })
@@ -338,7 +339,8 @@ angular.module('starter.controllers', [])
                     });
                 },function(err) {
                   console.error('Error', err);
-                }); 
+                });
+                $scope.taskModal.hide(); 
             }
   };
 })

@@ -15,7 +15,7 @@
             <h2>Ejercicios</h2>
           </div>
           <div class="list" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
-              <div class="item item-button-right" ng-repeat="datosEjercicio in datosEjercicios" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
+              <div class="item item-button-right item-text-wrap" ng-repeat="datosEjercicio in datosEjercicios" href="#/side/Ejercicio/{{datosEjercicio.id_ejercicio}}">
                   {{datosEjercicio.nombreEjercicio}}
                   <a class="button" href="#/side/EjercicioRutina/{{id_rutina}}/{{datosEjercicio.id_ejercicio}}">
                       <i class="icon ion-chevron-right"></i>
