@@ -47,6 +47,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
+  .state('sidemenu.splash', {
+    url: '/splash',
+    views: {
+      'menuContent' :{
+        templateUrl: "templates/splash.html"
+      }
+    }
+  })
+
   .state('sidemenu.registro', {
     url: '/registro',
     views: {
