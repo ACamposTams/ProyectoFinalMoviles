@@ -117,11 +117,12 @@ angular.module('starter.controllers', [])
                 message: "Introduzca el link al video del ejercicio"
             });
         }else{
+            $scope.nuevoLink = $scope.modificarLink($scope.datosEjercicio.linkVideo);
             servicios.create({
                 nombreEjercicio: $scope.datosEjercicio.nombreEjercicio,
                 descripcion: $scope.datosEjercicio.descripcion,
                 categoria: $stateParams.id_categoria,
-                linkVideo: $scope.datosEjercicio.linkVideo,
+                linkVideo: $scope.nuevoLink,
             },'Ejercicio').success(function(data){
                 $scope.showAlert({
                     title: "Info",
@@ -131,6 +132,15 @@ angular.module('starter.controllers', [])
             });
         }  
     };
+
+    $scope.modificarLink = function(linkViejo) {
+      var copia = "";
+      for (var i = 16; i < linkViejo.length; i++) {
+        var copia = copia + linkViejo[i];
+      }
+      var nuevoLink = "https://youtube.com/embed" + copia;
+      return nuevoLink;
+    }
 })
 
 .controller('ControllerDetallesEjercicioCategoria',function($scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
