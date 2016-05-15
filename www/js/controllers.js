@@ -1,11 +1,32 @@
 angular.module('starter.controllers', [])
 
 //$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
-.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform){
+//$cordovaGeolocation es para obtener la localización del usuario
+.controller('ControllerAgregarEjercicio', function($scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $scope.localizacion = {
+      lat: '',
+      long: ''
+    };
+
+    //para obtener la localización se utilizó el plugin: 
+    //cordova plugin add cordova-plugin-geolocation
+    $scope.obtenerLocalizacion = function() {
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+          $scope.localizacion.lat  = position.coords.latitude
+          $scope.localizacion.long = position.coords.longitude
+        }, function(err) {
+          println("No se pudo accesar a la localización")
+      });
+    }
+    
 
     //definicion de collection para accesar a la imagen
     $scope.collection = {
-      selectedImage : ''
+      selectedImage: ''
     };
 
     //funcion para accesar al carrete y seleccionar una imagen
@@ -21,7 +42,7 @@ angular.module('starter.controllers', [])
             };
  
             $cordovaImagePicker.getPictures(options).then(function (results) {
-                // Loop through acquired images
+                //For que recoge las imágenes
                 for (var i = 0; i < results.length; i++) {
                     // We loading only one image so we can use it like this
                     $scope.collection.selectedImage = results[i];
