@@ -80,13 +80,13 @@ angular.module('starter.controllers', [])
       var options = { 
         quality : 80, 
         destinationType : Camera.DestinationType.DATA_URL, 
-        sourceType : Camera.PictureSourceType.CAMERA, 
-        allowEdit : false,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 300,
-        targetHeight: 300,
+        //sourceType : Camera.PictureSourceType.CAMERA, 
+        //allowEdit : false,
+        encodingType: Camera.EncodingType.JPEG
+        //targetWidth: 300,
+        //targetHeight: 300,
         //popoverOptions: CameraPopoverOptions,
-        saveToPhotoAlbum: false
+        //saveToPhotoAlbum: false
       };
    
       $cordovaCamera.getPicture(options).then(function(imageData) {
