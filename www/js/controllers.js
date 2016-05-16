@@ -739,6 +739,9 @@ angular.module('starter.controllers', [])
     }
   }
 
+  $scope.modificarUsuario = function() {
+    $window.location.href= '#/side/modificarUsuario/'+usuario.id_usuario;
+  }
 })
 
 //controlador encargado de mostras las rutinas que se le han asignado a un usuario
@@ -774,4 +777,84 @@ angular.module('starter.controllers', [])
       });
     })
   }
+})
+
+//controlador encargado de mostrar la información individual de una rutina
+.controller('ControllerModificarUsuario',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+  
+  //funcion que muestra la información de una rutina individual utilizando el servicio conectado al archivo php
+  //se agrega además la posibilidad de actualizar los datos al arrastrar la pantalla hacia abajo
+  $scope.showDataId = function() {
+      servicios.getId($stateParams.id_usuario,"Usuarios").success(function(datosUsuario) {
+            $scope.datosUsuario = datosUsuario;
+
+        })
+    };
+
+  $scope.showDataId();
+
+  //Arreglar que no se tenga que pasar el id para editar 
+  $scope.edit = function(id_usuario,nombre,apPaterno,apMaterno,email,usuario,password){
+            if (!id_usuario){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca el Id"
+                });
+            }else if (!nombre){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su nombre"
+                });
+            }else if(!apPaterno){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su apellido paterno"
+                });
+            }else if(!apMaterno){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su apellido materno"
+                });
+            }else if(!email){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su email"
+                });
+            }else if(!usuario){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su usuario"
+                });
+            }else if(!password){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Introduzca su password"
+                });
+            }else{
+                $scope.id_usuario = id_usuario;
+                $scope.nombre = nombre;
+                $scope.apPaterno = apPaterno;
+                $scope.apMaterno = apMaterno;
+                $scope.email = email;
+                $scope.usuario = usuario;
+                $scope.password = password;
+                servicios.update({
+                    'id_usuario' : id_usuario,
+                    'nombre': nombre,
+                    'apPaterno': apPaterno,
+                    'apMaterno': apMaterno,
+                    'email': email,
+                    'usuario': usuario,
+                    'password': password,
+                },'Usuarios').then(function(resp) {
+                  console.log('Exito', resp);
+                  $scope.showAlert({
+                        title: "Info",
+                        message: "Los datos has sido actualizados"
+                    });
+                },function(err) {
+                  console.error('Error', err);
+                });
+            }
+  };
 })

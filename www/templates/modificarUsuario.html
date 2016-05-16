@@ -1,0 +1,30 @@
+<!--View donde se muestran los campos requeridos para agregar a un neuvo usuario -->
+<ion-view view-title="Registro">
+	<ion-content class="padding">
+		<ion-content ng-repeat="datosUsuario in datosUsuario">
+		<div class="list">
+	  		<label class="item item-input">
+	    		<input type="text" ng-model="datosUsuario.nombre" placeholder="Nombre">
+	  		</label>
+	  		<label class="item item-input">
+	    		<input type="text" ng-model="datosUsuario.apPaterno" placeholder="Apellido Paterno">
+	  		</label>
+	  		<label class="item item-input">
+	    		<input type="text" ng-model="datosUsuario.apMaterno" placeholder="Apellido Materno">
+	  		</label>
+	  		<label class="item item-input">
+	    		<input type="email" ng-model="datosUsuario.email" placeholder="Email">
+	  		</label>
+	  		<label class="item item-input">
+	    		<input type="text" ng-model="datosUsuario.usuario" placeholder="Usuario">
+	  		</label>
+	  		<label class="item item-input">
+	    		<input type="password" ng-model="datosUsuario.password" ng-minlength="5" placeholder="Contraseña">
+	  		</label>
+		</div>
+		<button class="button button-full button-dark" ng-disabled="!datosUsuario.email || !datosUsuario.password || !datosUsuario.nombre || !datosUsuario.apPaterno || !datosUsuario.apMaterno || !datosUsuario.usuario" ng-click="edit({{datosUsuario.id_usuario}},datosUsuario.nombre,datosUsuario.apPaterno,datosUsuario.apMaterno,datosUsuario.email,datosUsuario.usuario,datosUsuario.password)">
+  			Registrarse
+		</button>
+		</ion-content>
+	</ion-content>
+</ion-view>

@@ -231,4 +231,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+.state('sidemenu.modificarUsuario', {
+  url: '/modificarUsuario/:id_usuario',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/modificarUsuario.html",
+      controller: 'ControllerModificarUsuario'
+    }
+  }
+ })
+
  })
