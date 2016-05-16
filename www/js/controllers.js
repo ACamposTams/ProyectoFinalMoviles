@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
 
 //$cordovaCamera es para abrir la camara y tomar una foto
 //$cordovaGeolocation es para obtener la localización del usuario
-.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaCamera,$cordovaGeolocation){
+.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaCamera,$cordovaGeolocation,$cordovaFileTransfer){
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $scope.localizacion = {
@@ -85,7 +85,7 @@ angular.module('starter.controllers', [])
         encodingType: Camera.EncodingType.JPEG,
         targetWidth: 300,
         targetHeight: 300,
-        popoverOptions: CameraPopoverOptions,
+        //popoverOptions: CameraPopoverOptions,
         saveToPhotoAlbum: false
       };
    
@@ -96,6 +96,24 @@ angular.module('starter.controllers', [])
       });
     }
     
+    $scope.subirImagen = function() { 
+      var options = {
+              //var date = new Date();
+              fileKey: "file",
+              fileName: "image.jpeg",
+              chunkedMode: false,
+              mimeType: "image/jpeg"
+            };
+            $cordovaFileTransfer.upload("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php", $scope.imgURI, options).then(function(result) {
+              //alert(result);
+              console.log("SUCCESS: " + JSON.stringify(result.response));
+            }, function(err) {
+              console.log("ERROR: " + JSON.stringify(err));
+            }, function (progress) {
+              // constant progress updates
+            });
+    }
+
     //funcion para guardar los datos del ejercicio recién agregado
     $scope.datosEjercicio={};
     $scope.guardarEjercicio = function(){
