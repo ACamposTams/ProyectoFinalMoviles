@@ -1,5 +1,28 @@
 angular.module('starter.controllers', [])
 
+//Controller para el splash
+.controller('ControllerSplash', function($scope,$stateParams,$state,$cordovaFile) {
+
+  //development
+  //$scope.video = '../img/gym.mp4';
+
+  //ruta al file system de Android
+  $scope.video = 'file:///android_asset/www/img/gym.mp4';
+  
+  var vid = document.getElementById("splashVideo"); 
+
+  //funcion para pausar el video 
+  function pausarVideo() { 
+    vid.pause(); 
+  } 
+
+  //se esperan 19 segundos para el video
+  setTimeout(function() {
+            pausarVideo();
+            $state.go('sidemenu.login');
+        }, 19000);
+})
+
 //Controller para hacer login
 .controller('ControllerLogin', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$ionicHistory) {
 
