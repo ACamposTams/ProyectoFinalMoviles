@@ -106,6 +106,7 @@ angular.module('starter.controllers', [])
  
     });
     
+    //funcion para guardar los datos del ejercicio recién agregado
     $scope.datosEjercicio={};
     $scope.guardarEjercicio = function(){
         if (!$scope.datosEjercicio.nombreEjercicio){
@@ -140,6 +141,9 @@ angular.module('starter.controllers', [])
         }  
     };
 
+    //funcion creada para poder modificar los links de los videos puestos ya que únicamente se pueden mostrar videos
+    //que contenga la etiqueta embed, de esta forma es más fácil para el adminsitrador agregar videos de youtube
+    //solamente con el link de compartir
     $scope.modificarLink = function(linkViejo) {
       var copia = "";
       for (var i = 16; i < linkViejo.length; i++) {
@@ -150,8 +154,12 @@ angular.module('starter.controllers', [])
     }
 })
 
+//controller encargado de los ejercicios individuales al venir de una categoria, se diferencia de los de rutina para
+//mejorar la navegación de la página
 .controller('ControllerDetallesEjercicioCategoria',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
   
+  //funcion que muestra la información de un ejercicio individual utilizando el servicio conectado al archivo php
+  //se agrega además la posibilidad de actualizar los datos al arrastrar la pantalla hacia abajo
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
             $scope.datosEjercicio = datosEjercicio;
@@ -160,44 +168,48 @@ angular.module('starter.controllers', [])
         });   
     };
 
+  //funcion requerida para mostrar los videos de forma correcta y señalar que la url es confiable
   $scope.trustSrc = function(src) {
     return $sce.trustAsResourceUrl(src);
   }
 
-    $scope.showDataId();
+  $scope.showDataId();
 
-    $scope.delete = function (datosEjercicio){
-        servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
-                $scope.showAlert({
-                    title: "Info",
-                    message: "Ejercicio eliminado"
-                });
-                $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
-            });
-    };
+  //funcion para borrar el ejercicio con ayuda de los servicios conectados al php
+  $scope.delete = function (datosEjercicio){
+      servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
+              $scope.showAlert({
+                  title: "Info",
+                  message: "Ejercicio eliminado"
+              });
+              $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
+          });
+  };
 
-    $ionicModal.fromTemplateUrl('edit.html', function(modal){
+  //se muestra la view de edición del ejercicio
+  $ionicModal.fromTemplateUrl('edit.html', function(modal){
         $scope.taskModal = modal;
-  }, {
+      },{
             scope : $scope,
             animation : 'slide-in-up' 
-  });
+        });
         
-    
-    $scope.editModal = function(datosEjercicio){
-            $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
-            $scope.descripcion = datosEjercicio.descripcion;
-            $scope.categoria = datosEjercicio.categoria;
-            $scope.linkVideo = datosEjercicio.linkVideo;
-            $scope.taskModal.show();
+  //funcion que permite que los datos que se van a editar puedan mantenerse intactos sin la necesidad de volver a escribirlos
+  $scope.editModal = function(datosEjercicio){
+        $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
+        $scope.descripcion = datosEjercicio.descripcion;
+        $scope.categoria = datosEjercicio.categoria;
+        $scope.linkVideo = datosEjercicio.linkVideo;
+        $scope.taskModal.show();
   };
   
+  //funcion que controla que ocurre si en la view de ecición no se realiza ningún cambio
   $scope.nulo = function(){
             $scope.taskModal.hide();
             $scope.showDataId();
   };
 
-  //Arreglar que no se tenga que pasar el id para editar 
+  //función que toma los datos editados y los envía al servicio para que se actualizen los campos en la base de datos
   $scope.edit = function(id_ejercicio,nombreEjercicio,descripcion,categoria,linkVideo){
             if (!id_ejercicio){
                 $scope.showAlert({
@@ -250,8 +262,12 @@ angular.module('starter.controllers', [])
   };
 })
 
+//controller encargado de los ejercicios individuales al venir de una rutina, se diferencia de los de categoria para
+//mejorar la navegación de la página
 .controller('ControllerDetallesEjercicioRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
   
+  //funcion que muestra la información de un ejercicio individual utilizando el servicio conectado al archivo php
+  //se agrega además la posibilidad de actualizar los datos al arrastrar la pantalla hacia abajo
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
             $scope.datosEjercicio = datosEjercicio;
@@ -260,37 +276,42 @@ angular.module('starter.controllers', [])
         });    
     };
 
+  //funcion requerida para mostrar los videos de forma correcta y señalar que la url es confiable
   $scope.trustSrc = function(src) {
     return $sce.trustAsResourceUrl(src);
   }
 
-    $scope.showDataId();
+  $scope.showDataId();
 
-    $scope.delete = function (datosEjercicio){
-        servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
-                $scope.showAlert({
-                    title: "Info",
-                    message: "Ejercicio eliminado"
-                });
-                $window.location.href= '#/side/Rutina/'+$stateParams.id_rutina;
-            });
-    };
+  //funcion para borrar el ejercicio con ayuda de los servicios conectados al php
+  $scope.delete = function (datosEjercicio){
+      servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
+              $scope.showAlert({
+                  title: "Info",
+                  message: "Ejercicio eliminado"
+              });
+              $window.location.href= '#/side/Rutina/'+$stateParams.id_rutina;
+          });
+  };
 
-    $ionicModal.fromTemplateUrl('edit.html', function(modal){
+  //se muestra la view de edición del ejercicio
+  $ionicModal.fromTemplateUrl('edit.html', function(modal){
         $scope.taskModal = modal;
-  }, {
+      }, {
             scope : $scope,
             animation : 'slide-in-up' 
-  });
-    
-    $scope.editModal = function(datosEjercicio){
-            $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
-            $scope.descripcion = datosEjercicio.descripcion;
-            $scope.categoria = datosEjercicio.categoria;
-            $scope.linkVideo = datosEjercicio.linkVideo;
-            $scope.taskModal.show();
+          });
+  
+  //funcion que permite que los datos que se van a editar puedan mantenerse intactos sin la necesidad de volver a escribirlos
+  $scope.editModal = function(datosEjercicio){
+          $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
+          $scope.descripcion = datosEjercicio.descripcion;
+          $scope.categoria = datosEjercicio.categoria;
+          $scope.linkVideo = datosEjercicio.linkVideo;
+          $scope.taskModal.show();
   };
   
+  //funcion que controla que ocurre si en la view de ecición no se realiza ningún cambio
   $scope.nulo = function(){
             $scope.taskModal.hide();
             $scope.showDataId();
@@ -350,7 +371,10 @@ angular.module('starter.controllers', [])
 
 })
 
+//Controlador encargado de mostrar todas las categorías disponibles en la aplicación obteniendolas de la base de datos
+//gracias a los servicios conectado a los archivos php
 .controller('ControllerMostrarCategorias', function(usuario,$scope,$state,$ionicPopup,servicios){
+  //funcion encargada de mostrar todas las categorias disponibles
   $scope.showData = function() {
       servicios.getAll('Categorias').success(function(data) {
             $scope.datosCategorias = data;
@@ -359,10 +383,12 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
-
 })
 
+//Controlador encargado de mostrar y agregar los ejercicios que pertenecen a una categoría utilizando los servicios
+//conectados a los archivo php
 .controller('ControllerEjerciciosCategoria', function(usuario,$scope,$stateParams,$ionicPopup,servicios,$window){
+  //fucion encargada de mostrar todos los ejercicios pertenecientes a una categoria
   $scope.showData = function() {
       servicios.getCategoria($stateParams.id_categoria).success(function(data) {
             $scope.datosEjercicios = data;
@@ -371,16 +397,22 @@ angular.module('starter.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
-    $scope.showData();
+  
+  $scope.showData();
 
+  //funcion encargada de enviar la aplicación al estado de agregar un nuevo ejercicio especificando que se agregará a 
+  //esta categoría
   $scope.addExcercises = function() {
     $window.location.href= '#/side/nuevoEjercicio/'+$stateParams.id_categoria;
   }
 
 })
 
+//controlador encargado de manejar el registor en la aplicación
 .controller('ControllerRegistro', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
 
+    //funcion encargada de guardar los datos del nuevo usuario recien registrado utilizando los servicios y los
+    //archivos php
     $scope.datosUsuario={};
     $scope.registrarUsuario = function(){
         if (!$scope.datosUsuario.nombre){
@@ -432,7 +464,10 @@ angular.module('starter.controllers', [])
     };
 })
 
+//Controlador encargado de mostrar todas las rutinas disponibles en la aplicación obteniendolas de la base de datos
+//gracias a los servicios conectado a los archivos php
 .controller('ControllerMostrarRutinas', function(usuario,$scope,$state,$ionicPopup,servicios){
+  //funcion encargada de mostrar todas las rutinas disponibles
   $scope.showData = function() {
       servicios.getAll('Rutinas').success(function(data) {
             $scope.datosRutinas = data;
@@ -443,8 +478,11 @@ angular.module('starter.controllers', [])
     $scope.showData();
 })
 
+//controlador encargado de mostrar la información individual de una rutina
 .controller('ControllerDetallesRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
   
+  //funcion que muestra la información de una rutina individual utilizando el servicio conectado al archivo php
+  //se agrega además la posibilidad de actualizar los datos al arrastrar la pantalla hacia abajo
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_rutina,"Rutinas").success(function(datosRutina) {
             $scope.datosRutina = datosRutina;
@@ -454,6 +492,7 @@ angular.module('starter.controllers', [])
         });   
     };
 
+  //funcion encargada de mostrar los ejercicios que pertenecen a esa rutina
   $scope.showRoutineWorkouts = function() {
     servicios.getWorkouts($stateParams.id_rutina).success(function(datosEjercicios){
           $scope.datosEjercicios = datosEjercicios;
@@ -462,7 +501,8 @@ angular.module('starter.controllers', [])
 
   $scope.showDataId();
   $scope.showRoutineWorkouts();
-    
+  
+  //funcion para borrar la rutina con ayuda de los servicios conectados al php
   $scope.delete = function (datosRutina){
       servicios.delete(datosRutina.id_rutina,'Rutinas').success(function(data){
               $scope.showAlert({
@@ -472,20 +512,23 @@ angular.module('starter.controllers', [])
           });
   };
 
-    $ionicModal.fromTemplateUrl('edit.html', function(modal){
+  //se muestra la view de edición de la rutina
+  $ionicModal.fromTemplateUrl('edit.html', function(modal){
         $scope.taskModal = modal;
-  }, {
+      }, {
             scope : $scope,
             animation : 'slide-in-up' 
-  });
+          });
     
-    $scope.editModal = function(datosRutina){
-            $scope.nombreRutina = datosRutina.nombreRutina;
-            $scope.descripcion = datosRutina.descripcion;
-            $scope.taskModal.show();
-            $scope.showRoutineWorkouts();
+  //funcion que permite que los datos que se van a editar puedan mantenerse intactos sin la necesidad de volver a escribirlos
+  $scope.editModal = function(datosRutina){
+          $scope.nombreRutina = datosRutina.nombreRutina;
+          $scope.descripcion = datosRutina.descripcion;
+          $scope.taskModal.show();
+          $scope.showRoutineWorkouts();
   };
   
+  //funcion que controla que ocurre si en la view de ecición no se realiza ningún cambio
   $scope.nulo = function(){
             $scope.taskModal.hide();
             $scope.showDataId();
@@ -532,6 +575,7 @@ angular.module('starter.controllers', [])
             }
   };
 
+  //funcion para borrar el ejercicio de la rutina con ayuda de los servicios conectados al php
   $scope.deleteExercise = function (datosEjercicio){
         servicios.deleteEjercicio(datosEjercicio.id_ejercicio,$stateParams.id_rutina).success(function(data){
                 $scope.showAlert({
@@ -544,8 +588,10 @@ angular.module('starter.controllers', [])
     };
 })
 
+//controlador encargado de agregar rutinas a la aplicación
 .controller('ControllerAgregarRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
     
+    //función encargada de guardar la información de la rutina recien creada
     $scope.datosRutina={};
     $scope.guardarRutina = function(){
         if (!$scope.datosRutina.nombreRutina){
@@ -564,7 +610,6 @@ angular.module('starter.controllers', [])
                 descripcion: $scope.datosRutina.descripcion,
             },'Rutinas').success(function(data){
                 servicios.getIdRutina($scope.datosRutina.nombreRutina).success(function(data2){
-                  console.log(data2[0].id_rutina);
                   $window.location.href= '#/side/ejerciciosNuevaRutina/'+data2[0].id_rutina;
                 });
             });
@@ -572,7 +617,9 @@ angular.module('starter.controllers', [])
     };
 })
 
+//controlador encargado de agregar ejercicios a las rutinas
 .controller('ControllerAgregarEjerciciosRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+  //controlador encargado de mostrar todos los ejercicios disponibles para que sean agregados a la rutina
   $scope.showData = function() {
       servicios.getAll('Ejercicio').success(function(data) {
             $scope.datosEjercicios = data;
@@ -582,24 +629,27 @@ angular.module('starter.controllers', [])
     };
     $scope.showData();
 
+  //se muestra la view para agregar la eespecificación al ejercicio que se desea agregar a la rutina
   $ionicModal.fromTemplateUrl('edit.html', function(modal){
         $scope.taskModal = modal;
   }, {
             scope : $scope,
             animation : 'slide-in-up' 
   });
-    
-    $scope.editModal = function(datosEjercicio){
-            console.log(datosEjercicio.id_ejercicio);
-            $scope.id_ejercicio = datosEjercicio.id_ejercicio;
-            $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
-            $scope.taskModal.show();
+  
+  //funcion que permite que los datos que se van a editar puedan mantenerse intactos sin la necesidad de volver a escribirlos 
+  $scope.editModal = function(datosEjercicio){
+          $scope.id_ejercicio = datosEjercicio.id_ejercicio;
+          $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
+          $scope.taskModal.show();
   };
   
+  //funcion que controla que ocurre si en la view de ecición no se realiza ningún cambio
   $scope.nulo = function(){
             $scope.taskModal.hide();
   };
 
+  //funcion encargada de agregar los ejercicios a las rutinas
   $scope.agregarARutina = function(id_ejercicio,especificaciones) {
     servicios.agregarEjercicioRutina(id_ejercicio,$stateParams.id_rutina,especificaciones).success(function(data){
       $scope.showAlert({
@@ -610,6 +660,11 @@ angular.module('starter.controllers', [])
     })
   }
 
+  $scope.agregarAUsuarios = function() {
+    $window.location.href= '#/side/usuariosRutina/'+$stateParams.id_rutina;
+  }
+
+  //funcion que redirige al usuario a las rutinas al terminar de crear una nueva rutina
   $scope.terminarRutina = function(){
     $scope.showAlert({
         title: "Info",
@@ -620,8 +675,10 @@ angular.module('starter.controllers', [])
 
 })
 
+//controlador encargado de agregar nuevas categorías a la aplicación
 .controller('ControllerAgregarCategoria', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
     
+    //controlador encargadod e guardar la información de la categoría recién creada
     $scope.datosCategoria={};
     $scope.guardarCategoria = function(){
         if (!$scope.datosCategoria.categoria){
@@ -642,7 +699,9 @@ angular.module('starter.controllers', [])
     };
 })
 
+//controlador encargado de aspectos generales de la aplicación
 .controller('ControllerHome', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+   //funcion que establece la forma de los mensaje que se muestran alrededor de la aplicación
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
           title: msg.title,
@@ -654,7 +713,8 @@ angular.module('starter.controllers', [])
 
     $scope.userName = usuario.usuario;
 
-    $scope.showAdmin = function()
+  //funcion encargada de mostrar el contenido de administrador al ususario si este cuenta con ese permiso
+  $scope.showAdmin = function()
   {
     if (usuario.admin == 0)
     {
@@ -666,6 +726,7 @@ angular.module('starter.controllers', [])
     }
   }
 
+  //funcion encargada de mostrar el contenido de usuario al usuario si este no cuenta con el permiso de administrador
   $scope.showUsuario = function()
   {
     if (usuario.admin == 1)
@@ -680,10 +741,10 @@ angular.module('starter.controllers', [])
 
 })
 
+//controlador encargado de mostras las rutinas que se le han asignado a un usuario
 .controller('ControllerRutinasUsuario', function(usuario,$scope,$state,$ionicPopup,servicios){
   $scope.showData = function() {
       servicios.getRoutinesUser(usuario.id_usuario).success(function(data) {
-            console.log(data);
             $scope.datosRutinas = data;
         }).finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
@@ -692,7 +753,9 @@ angular.module('starter.controllers', [])
     $scope.showData();
 })
 
+//controlador encargado del manejo de la asignación de rutinas a usuarios
 .controller('ControllerUsuariosRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+  //función que muestra todos los usuarios a los cuales se les puede asignar una rutina
   $scope.showData = function() {
       servicios.getAll('Usuarios').success(function(data) {
             $scope.datosUsuarios = data;
@@ -702,6 +765,7 @@ angular.module('starter.controllers', [])
     };
     $scope.showData();
 
+  //funcion que permite agregarle una rutina a un usuario
   $scope.agregarRutina = function(id_usuario) {
     servicios.agregarRutinaUsuario(id_usuario,$stateParams.id_rutina).success(function(data){
       $scope.showAlert({
@@ -710,57 +774,4 @@ angular.module('starter.controllers', [])
       });
     })
   }
-
-  $scope.terminarRutina = function(){
-    $scope.showAlert({
-        title: "Info",
-        message: "Rutina Agregada"
-      });
-    $state.go('sidemenu.rutinas');
-  }
-
-})
-
-.controller('AppCtrl', function(usuario,$scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {
-
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
-
-  $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
-
 })
