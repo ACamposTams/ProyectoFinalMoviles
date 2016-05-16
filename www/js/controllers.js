@@ -26,15 +26,6 @@ angular.module('starter.controllers', [])
 //Controller para hacer login
 .controller('ControllerLogin', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$ionicHistory) {
 
-    $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
-
     $scope.comprobarLogin = function(email,password){
       servicios.login(email,password,'Usuarios').success(function(data) {
       if(data.length == 1){
@@ -114,15 +105,6 @@ angular.module('starter.controllers', [])
         };  
  
     });
-
-   $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
     
     $scope.datosEjercicio={};
     $scope.guardarEjercicio = function(){
@@ -173,6 +155,8 @@ angular.module('starter.controllers', [])
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
             $scope.datosEjercicio = datosEjercicio;
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
         });   
     };
 
@@ -183,7 +167,7 @@ angular.module('starter.controllers', [])
     $scope.showDataId();
 
     $scope.delete = function (datosEjercicio){
-        servicios.delete(datosEjercicio.id_ejercicio,'Ejercicio').success(function(data){
+        servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
                 $scope.showAlert({
                     title: "Info",
                     message: "Ejercicio eliminado"
@@ -199,14 +183,6 @@ angular.module('starter.controllers', [])
             animation : 'slide-in-up' 
   });
         
-        $scope.showAlert = function(msg) {
-            $ionicPopup.alert({
-                title: msg.title,
-                template: msg.message,
-                okText: 'Ok',
-                okType: 'button-positive'
-            });
-          };
     
     $scope.editModal = function(datosEjercicio){
             $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
@@ -279,7 +255,9 @@ angular.module('starter.controllers', [])
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_ejercicio,"Ejercicio").success(function(datosEjercicio) {
             $scope.datosEjercicio = datosEjercicio;
-        });   
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        });    
     };
 
   $scope.trustSrc = function(src) {
@@ -289,7 +267,7 @@ angular.module('starter.controllers', [])
     $scope.showDataId();
 
     $scope.delete = function (datosEjercicio){
-        servicios.delete(datosEjercicio.id_ejercicio,'Ejercicio').success(function(data){
+        servicios.delete(datosEjercicio[0].id_ejercicio,'Ejercicio').success(function(data){
                 $scope.showAlert({
                     title: "Info",
                     message: "Ejercicio eliminado"
@@ -304,15 +282,6 @@ angular.module('starter.controllers', [])
             scope : $scope,
             animation : 'slide-in-up' 
   });
-        
-        $scope.showAlert = function(msg) {
-            $ionicPopup.alert({
-                title: msg.title,
-                template: msg.message,
-                okText: 'Ok',
-                okType: 'button-positive'
-            });
-          };
     
     $scope.editModal = function(datosEjercicio){
             $scope.nombreEjercicio = datosEjercicio.nombreEjercicio;
@@ -411,14 +380,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ControllerRegistro', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
-   $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
 
     $scope.datosUsuario={};
     $scope.registrarUsuario = function(){
@@ -488,6 +449,8 @@ angular.module('starter.controllers', [])
       servicios.getId($stateParams.id_rutina,"Rutinas").success(function(datosRutina) {
             $scope.datosRutina = datosRutina;
             $scope.id_rutina = $stateParams.id_rutina;
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
         });   
     };
 
@@ -499,15 +462,6 @@ angular.module('starter.controllers', [])
 
   $scope.showDataId();
   $scope.showRoutineWorkouts();
-
-  $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
     
   $scope.delete = function (datosRutina){
       servicios.delete(datosRutina.id_rutina,'Rutinas').success(function(data){
@@ -524,15 +478,6 @@ angular.module('starter.controllers', [])
             scope : $scope,
             animation : 'slide-in-up' 
   });
-        
-        $scope.showAlert = function(msg) {
-            $ionicPopup.alert({
-                title: msg.title,
-                template: msg.message,
-                okText: 'Ok',
-                okType: 'button-positive'
-            });
-          };
     
     $scope.editModal = function(datosRutina){
             $scope.nombreRutina = datosRutina.nombreRutina;
@@ -600,14 +545,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ControllerAgregarRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
-   $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
     
     $scope.datosRutina={};
     $scope.guardarRutina = function(){
@@ -644,15 +581,6 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
-
-  $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
 
   $ionicModal.fromTemplateUrl('edit.html', function(modal){
         $scope.taskModal = modal;
@@ -693,14 +621,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ControllerAgregarCategoria', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
-   $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
     
     $scope.datosCategoria={};
     $scope.guardarCategoria = function(){
@@ -781,15 +701,6 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
-
-  $scope.showAlert = function(msg) {
-      $ionicPopup.alert({
-          title: msg.title,
-          template: msg.message,
-          okText: 'Ok',
-          okType: 'button-positive'
-      });
-    };
 
   $scope.agregarRutina = function(id_usuario) {
     servicios.agregarRutinaUsuario(id_usuario,$stateParams.id_rutina).success(function(data){

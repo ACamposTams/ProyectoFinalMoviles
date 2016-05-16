@@ -1,6 +1,7 @@
-<!-- Arreglar el problema de los videos -->
 <ion-view view-title="Ejercicio">
   <ion-content class="padding">
+  <ion-refresher pulling-text="Baja para actualizar..." on-refresh="showData()">
+        </ion-refresher>
     <div class="row responsive-sm">
         <div class="col"><div class="list card" ng-repeat="datosEjercicio in datosEjercicio">
             <div class="item item-text-wrap">

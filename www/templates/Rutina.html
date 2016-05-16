@@ -1,12 +1,13 @@
 <ion-view view-title="Rutina">
   <ion-content class="padding">
+  <ion-refresher pulling-text="Baja para actualizar..." on-refresh="showData()">
+        </ion-refresher>
     <div class="row responsive-sm">
         <div class="col"><div class="list card" ng-repeat="datosRutina in datosRutina">
           <div class="item item-text-wrap">
             <h2>{{datosRutina.nombreRutina}}</h2>
           </div>
           <div class="item item-body">
-            <!-- <iframe width="560" height="315" src={{trustSrc(datosRutina.linkVideo)}} frameborder="0" allowfullscreen></iframe> -->
             <p>
                 {{datosRutina.descripcion}}
             </p>

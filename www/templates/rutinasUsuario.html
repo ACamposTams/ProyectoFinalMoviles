@@ -1,20 +1,14 @@
 <ion-view view-title="Mis Rutinas">
 	<ion-content class="padding">
+	<ion-refresher pulling-text="Baja para actualizar..." on-refresh="showData()">
+        </ion-refresher>
 	        <div class="row responsive-sm" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
-	            <div class="list" ng-repeat="datosRutina in datosRutinas" href="#/tab/alumno/{{datosalumno.id}}">
+	            <div class="list" ng-repeat="datosRutina in datosRutinas">
 		  			<div class="item item-button-right">
 			            {{datosRutina.nombreRutina}}
                   		<a class="button" href="#/side/Rutina/{{datosRutina.id_rutina}}">
                       		<i class="icon ion-chevron-right"></i>
                   		</a>
-			            <!-- <div class="item item-body">
-							<img src="{{datosRutina.imagen}}" style="width:304px;height:228px;">
-						</div> -->
-		                <!-- <div class="button-bar ng-fit-text">
-		  					<a class="button button-block button-energized" href="#/side/Rutina/{{datosRutina.id_rutina}}">
-  								Más Información
-							</a>
-						</div> -->
 		            </div>
 	            </div>
 			</div>
