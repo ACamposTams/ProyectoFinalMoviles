@@ -44,6 +44,12 @@ angular.module('starter.services', [])
         },
         deleteEjercicio: function(id_ejercicio,id_rutina){
             return $http.get(baseUrl+'Rutinas.php?op=deleteExerciseRoutine&id_routine='+id_rutina+'&id_exercise='+id_ejercicio); 
-        }
+        },
+        getRoutinesUser: function(id_usuario) {
+            return $http.get(baseUrl+'Rutinas.php?op=getRoutinesUser&id_usuario='+id_usuario);
+        },
+        agregarRutinaUsuario: function(id_usuario,id_rutina) {
+            return $http.get(baseUrl+'Rutinas.php?op=addRoutineUser&id_usuario='+id_usuario+'&id_rutina='+id_rutina);
+        },
     };
 })

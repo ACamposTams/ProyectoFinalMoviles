@@ -1,4 +1,4 @@
-<ion-view view-title="Rutinas">
+<ion-view view-title="Mis Rutinas">
 	<ion-content class="padding">
 	        <div class="row responsive-sm" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
 	            <div class="list" ng-repeat="datosRutina in datosRutinas" href="#/tab/alumno/{{datosalumno.id}}">
@@ -18,8 +18,5 @@
 		            </div>
 	            </div>
 			</div>
-			<a id="boton" class="button button-block button-energized" ng-if="showAdmin()" href="#/side/nuevaRutina">
-  				Agregar Rutina
-			</a>
 	</ion-content>
 </ion-view>

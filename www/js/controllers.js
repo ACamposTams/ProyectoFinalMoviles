@@ -249,19 +249,6 @@ angular.module('starter.controllers', [])
                 $scope.taskModal.hide(); 
             }
   };
-
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
-
 })
 
 .controller('ControllerDetallesEjercicioRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$ionicHistory,$window){
@@ -369,18 +356,6 @@ angular.module('starter.controllers', [])
             }
   };
 
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
-
 })
 
 .controller('ControllerMostrarCategorias', function(usuario,$scope,$state,$ionicPopup,servicios){
@@ -393,17 +368,6 @@ angular.module('starter.controllers', [])
     };
     $scope.showData();
 
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
 })
 
 .controller('ControllerEjerciciosCategoria', function(usuario,$scope,$stateParams,$ionicPopup,servicios,$window){
@@ -419,18 +383,6 @@ angular.module('starter.controllers', [])
 
   $scope.addExcercises = function() {
     $window.location.href= '#/side/nuevoEjercicio/'+$stateParams.id_categoria;
-  }
-
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
   }
 
 })
@@ -505,18 +457,6 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.showData();
-
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
 })
 
 .controller('ControllerDetallesRutina',function(usuario,$scope,$sce,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
@@ -634,19 +574,6 @@ angular.module('starter.controllers', [])
                 $scope.showRoutineWorkouts();
             });
     };
-
-  $scope.show = function()
-  {
-    if (usuario.admin == 0)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
-
 })
 
 .controller('ControllerAgregarRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
@@ -770,6 +697,94 @@ angular.module('starter.controllers', [])
             });
         }  
     };
+})
+
+.controller('ControllerHome', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+   $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+
+    $scope.userName = usuario.usuario;
+
+    $scope.showAdmin = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  $scope.showUsuario = function()
+  {
+    if (usuario.admin == 1)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+})
+
+.controller('ControllerRutinasUsuario', function(usuario,$scope,$state,$ionicPopup,servicios){
+  $scope.showData = function() {
+      servicios.getRoutinesUser(usuario.id_usuario).success(function(data) {
+            console.log(data);
+            $scope.datosRutinas = data;
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+    $scope.showData();
+})
+
+.controller('ControllerUsuariosRutina', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+  $scope.showData = function() {
+      servicios.getAll('Usuarios').success(function(data) {
+            $scope.datosUsuarios = data;
+        }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+    $scope.showData();
+
+  $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+
+  $scope.agregarRutina = function(id_usuario) {
+    servicios.agregarRutinaUsuario(id_usuario,$stateParams.id_rutina).success(function(data){
+      $scope.showAlert({
+        title: "Info",
+        message: "Rutina Agregada"
+      });
+    })
+  }
+
+  $scope.terminarRutina = function(){
+    $scope.showAlert({
+        title: "Info",
+        message: "Rutina Agregada"
+      });
+    $state.go('sidemenu.rutinas');
+  }
+
 })
 
 .controller('AppCtrl', function(usuario,$scope,$state, $ionicModal,$ionicPopup, $timeout, servicioVendedor) {

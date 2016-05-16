@@ -16,13 +16,14 @@
 
     <ion-side-menu side="left" width="260">
       <ion-header-bar class="bar-assertive">
-        <h1 class="title">Men&uacute; </h1>
+        <h1 class="title">Men&uacute;</h1>
       </ion-header-bar>
       <ion-content>
         <ul class="list">
         <a ui-sref="sidemenu.home" class="item" menu-close>Inicio</a>
           <a ui-sref="sidemenu.categorias" class="item" menu-close>Categorías de Ejercicios</a>
           <a ui-sref="sidemenu.rutinas" class="item" menu-close>Rutinas</a>
+          <a ui-sref="sidemenu.rutinasUsuario" class="item" ng-if="showUsuario()" menu-close>Mis Rutinas</a>
         </ul>
       </ion-content>
     </ion-side-menu>

@@ -1,0 +1,14 @@
+<ion-view view-title="Agregar Ejercicios">
+  <ion-content class="padding">
+    <div class="row responsive-sm">
+        <div class="list" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
+              <div class="item item-button-right" ng-repeat="datosUsuario in datosUsuarios">
+                  {{datosUsuario.nombre}}
+                  <a class="button" ng-click="agregarRutina({{datosUsuario.id_usuario}})">
+                      <i class="icon ion-plus"></i>
+                  </a>
+              </div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

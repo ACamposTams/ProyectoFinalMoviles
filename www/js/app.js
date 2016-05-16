@@ -55,7 +55,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   .state('sidemenu', {
       url: "/side",
       abstract: true,
-      templateUrl: "templates/side-menu.html"
+      templateUrl: "templates/side-menu.html",
+      controller: 'ControllerHome'
   })
 
   .state('sidemenu.login', {
@@ -83,6 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     views: {
       'menuContent' :{
         templateUrl: "templates/Home.html",
+        controller: 'ControllerHome'
       }
     }
   })
@@ -187,6 +189,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     'menuContent' :{
       templateUrl: "templates/nuevoEjercicio.html",
       controller: 'ControllerAgregarEjercicio'
+    }
+  }
+ })
+
+.state('sidemenu.rutinasUsuario', {
+  url: '/rutinasUsuario',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/rutinasUsuario.html",
+      controller: 'ControllerRutinasUsuario'
+    }
+  }
+ })
+
+.state('sidemenu.usuariosRutina', {
+  url: '/usuariosRutina/:id_rutina',
+  views: {
+    'menuContent' :{
+      templateUrl: "templates/usuariosRutina.html",
+      controller: 'ControllerUsuariosRutina'
     }
   }
  })
