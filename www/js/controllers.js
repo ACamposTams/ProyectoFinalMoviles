@@ -16,11 +16,11 @@ angular.module('starter.controllers', [])
     vid.pause(); 
   } 
 
-  //se esperan 19 segundos para el video
+  //se esperan 8 segundos para el video
   setTimeout(function() {
             pausarVideo();
             $state.go('sidemenu.login');
-        }, 19000);
+        }, 8000);
 })
 
 //Controller para hacer login
@@ -508,6 +508,16 @@ angular.module('starter.controllers', [])
               $scope.showAlert({
                   title: "Info",
                   message: "Rutina eliminada"
+              });
+          });
+  };
+
+  //funcion para marcar las rutinas como terminadas
+  $scope.deleteRutinaUsuario = function (datosRutina){
+      servicios.deleteRutinaUsuario(datosRutina.id_rutina,usuario.id_usuario).success(function(data){
+              $scope.showAlert({
+                  title: "Info",
+                  message: "Rutina terminada"
               });
           });
   };

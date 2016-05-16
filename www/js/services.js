@@ -66,5 +66,9 @@ angular.module('starter.services', [])
         agregarRutinaUsuario: function(id_usuario,id_rutina) {
             return $http.get(baseUrl+'Rutinas.php?op=addRoutineUser&id_usuario='+id_usuario+'&id_rutina='+id_rutina);
         },
+        //función encargada de borrar una rutina de un usuario
+        deleteRutinaUsuario: function(id_rutina,id_usuario) {
+            return $http.get(baseUrl+'Rutinas.php?op=deleteRoutineUser&id_usuario='+id_usuario+'&id_rutina='+id_rutina);
+        }
     };
 })

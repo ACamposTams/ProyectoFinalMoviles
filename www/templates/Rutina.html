@@ -29,6 +29,7 @@
           <a class="button button-royal button-block" ng-if="showAdmin()" href ="#/side/usuariosRutina/{{id_rutina}}">Asignar Rutina a un Usuario</a>
           <button class="button button-energized button-block" ng-if="showAdmin()" ng-click="editModal(datosRutina)">Editar Rutina</button>
           <button class="button button-assertive button-block" ng-if="showAdmin()" ng-click="delete(datosRutina)" ui-sref="sidemenu.rutinas">Eliminar Rutina</button>
+          <button class="button button-assertive button-block" ng-if="showUsuario()" ng-click="deleteRutinaUsuario(datosRutina)" ui-sref="sidemenu.rutinasUsuario">Rutina Terminada</button>
       </div></div>
     </div>
   </ion-content>

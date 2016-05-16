@@ -211,6 +211,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
 //estado encargado de mostrar las rutinas de un usuario
 .state('sidemenu.rutinasUsuario', {
+  cache: false,
   url: '/rutinasUsuario',
   views: {
     'menuContent' :{
@@ -231,6 +232,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de modificar la información del usuario
 .state('sidemenu.modificarUsuario', {
   url: '/modificarUsuario/:id_usuario',
   views: {
