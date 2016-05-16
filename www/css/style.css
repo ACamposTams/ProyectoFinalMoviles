@@ -1,5 +1,6 @@
 /* Empty. Add your own CSS if you like */
 
+/*Elementos encargados de hacer que la reproducción deel vídeo se adapte al equipo*/
 .video-container {
     position: relative;
     padding-bottom: 56.25%;

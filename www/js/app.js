@@ -1,8 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
 
 //Se agregó ngCordova para manejar el acceso al carrete para agregar fotos
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
@@ -10,13 +5,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
+
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
-      // Don't remove this line unless you know what you are doing. It stops the viewport
-      // from snapping when text inputs are focused. Ionic handles this internally for
-      // a much nicer keyboard experience.
       cordova.plugins.Keyboard.disableScroll(true);
     }
     if(window.StatusBar) {
@@ -52,6 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
   $stateProvider
   
+  //estado encargado del menú lateral
   .state('sidemenu', {
       url: "/side",
       abstract: true,
@@ -59,6 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       controller: 'ControllerHome'
   })
 
+  //estado encargado del login
   .state('sidemenu.login', {
     url: '/login',
     views: {
@@ -69,6 +62,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
+  //estado encargado del splash de video inicial
   .state('sidemenu.splash', {
     url: '/splash',
     views: {
@@ -79,6 +73,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
+  //estado encargado del registro
   .state('sidemenu.registro', {
     url: '/registro',
     views: {
@@ -89,6 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
  
+ //estado encargado de la pantalla principal de la aplicación
  .state('sidemenu.home', {
     url: '/home',
     views: {
@@ -99,6 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
+ //estado encargado del ejercicio de una rutina
  .state('sidemenu.ejercicioRutina', {
   url: '/EjercicioRutina/:id_rutina/:id_ejercicio',
   views: {
@@ -109,6 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+ //estado encargado del ejercicio de una categoria
  .state('sidemenu.ejercicioCategoria', {
   url: '/EjercicioCategoria/:id_categoria/:id_ejercicio',
   views: {
@@ -119,6 +117,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar todas las categorias
 .state('sidemenu.categorias', {
   cache: false,
   url: '/Categorias',
@@ -130,6 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar todos los ejercicios de una categoria
 .state('sidemenu.ejerciciosCategoria', {
   cache: false,
   url: '/Ejercicios/:id_categoria',
@@ -141,6 +141,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar todas las rutinas
 .state('sidemenu.rutinas', {
   cache: false,
   url: '/Rutinas',
@@ -152,6 +153,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar una rutina
 .state('sidemenu.rutina', {
   cache: false,
   url: '/Rutina/:id_rutina',
@@ -163,6 +165,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar los campos apra agregar una nueva rutina
 .state('sidemenu.nuevaRutina', {
   url: '/nuevaRutina',
   views: {
@@ -173,6 +176,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de agregar ejercicios a una rutina
 .state('sidemenu.ejerciciosNuevaRutina', {
   url: '/ejerciciosNuevaRutina/:id_rutina',
   views: {
@@ -183,6 +187,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de agregar una categoria
 .state('sidemenu.nuevaCategoria', {
   url: '/nuevaCategoria',
   views: {
@@ -193,6 +198,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de agregar un ejercicio
 .state('sidemenu.nuevoEjercicio', {
   url: '/nuevoEjercicio/:id_categoria',
   views: {
@@ -203,6 +209,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de mostrar las rutinas de un usuario
 .state('sidemenu.rutinasUsuario', {
   url: '/rutinasUsuario',
   views: {
@@ -213,6 +220,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
  })
 
+//estado encargado de agregar rutinas a un usuario
 .state('sidemenu.usuariosRutina', {
   url: '/usuariosRutina/:id_rutina',
   views: {
