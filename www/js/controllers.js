@@ -52,9 +52,9 @@ angular.module('starter.controllers', [])
 
 })
 
-//$cordovaImagePicker y $ionicPlatform son para escoger la imagen del carrete
+//$cordovaCamera es para abrir la camara y tomar una foto
 //$cordovaGeolocation es para obtener la localización del usuario
-.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaImagePicker,$ionicPlatform,$cordovaGeolocation){
+.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaCamera,$cordovaGeolocation){
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $scope.localizacion = {
@@ -74,37 +74,27 @@ angular.module('starter.controllers', [])
           println("No se pudo accesar a la localización")
       });
     }
-    
 
-    //definicion de collection para accesar a la imagen
-    $scope.collection = {
-      selectedImage: ''
-    };
-
-    //funcion para accesar al carrete y seleccionar una imagen
-    $ionicPlatform.ready(function() {
- 
-        $scope.obtenerImagen = function() {       
-            // Image picker will load images according to these settings
-            var options = {
-                maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
-                width: 800,
-                height: 800,
-                quality: 80            // Higher is better
-            };
- 
-            $cordovaImagePicker.getPictures(options).then(function (results) {
-                //For que recoge las imágenes
-                for (var i = 0; i < results.length; i++) {
-                    // We loading only one image so we can use it like this
-                    $scope.collection.selectedImage = results[i];
-                }
-            }, function(error) {
-                console.log('Error: ' + JSON.stringify(error));    // In case of error
-            });
-        };  
- 
-    });
+    //funcion para abrir la camara
+    $scope.abrirCamara = function() {
+      var options = { 
+        quality : 80, 
+        destinationType : Camera.DestinationType.DATA_URL, 
+        sourceType : Camera.PictureSourceType.CAMERA, 
+        allowEdit : false,
+        encodingType: Camera.EncodingType.JPEG,
+        targetWidth: 300,
+        targetHeight: 300,
+        popoverOptions: CameraPopoverOptions,
+        saveToPhotoAlbum: false
+      };
+   
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        $scope.imgURI = "data:image/jpeg;base64," + imageData;
+      }, function(err) {
+              // An error occured. Show a message to the user
+      });
+    }
     
     //funcion para guardar los datos del ejercicio recién agregado
     $scope.datosEjercicio={};
