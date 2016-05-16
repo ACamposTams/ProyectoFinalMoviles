@@ -458,7 +458,7 @@ angular.module('starter.controllers', [])
                     title: "Info",
                     message: "Usuario Creado"
                 });
-                $state.go('sidemenu.home');
+                $state.go('sidemenu.login');
             });
         }  
     };
@@ -787,6 +787,7 @@ angular.module('starter.controllers', [])
   $scope.showDataId = function() {
       servicios.getId($stateParams.id_usuario,"Usuarios").success(function(datosUsuario) {
             $scope.datosUsuario = datosUsuario;
+            console.log(datosUsuario);
 
         })
     };
