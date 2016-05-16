@@ -13,3 +13,9 @@
     width: 100%;
     height: 100%;
 }
+
+.centerme {
+    margin: 0 auto;
+    width: 100%;
+    height:100%;
+}

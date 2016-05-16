@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/side/login')
+  $urlRouterProvider.otherwise('/side/splash')
 
   $stateProvider
   
@@ -43,6 +43,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       'menuContent' :{
         templateUrl: "templates/login.html",
         controller: 'ControllerLogin'
+      }
+    }
+  })
+
+  .state('sidemenu.splash', {
+    url: '/splash',
+    views: {
+      'menuContent' :{
+        templateUrl: "templates/splash.html",
+        controller: 'ControllerSplash'
       }
     }
   })
