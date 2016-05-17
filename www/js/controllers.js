@@ -96,9 +96,9 @@ angular.module('starter.controllers', [])
       });
     }
     
-    $scope.ubicacionImagen;
+    $scope.ubicacionImagen = "";
 
-    $scope.subirImagen = function() {
+    $scope.subirImagen = function(id_ejercicio) {
       var date = new Date();
 
       var options = {
@@ -110,8 +110,9 @@ angular.module('starter.controllers', [])
 
       $cordovaFileTransfer.upload(encodeURI("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php"),$scope.imgURI,options).then(function(result) {
         //console.log("SUCCESS: " + JSON.stringify(result.response));
-        console.log(result.response);
-        $scope.ubicacionImagen = result.response;
+        //console.log(JSON.stringify(eval("(" + result.response + ")")));
+        $scope.ubicacionImagen = JSON.stringify(eval("(" + result.response + ")"));
+        $scope.guardarImagenID($scope.ubicacionImagen,id_ejercicio);
       }, function(err) {
         console.log("ERROR: " + JSON.stringify(err));
             }, function (progress) {
@@ -121,7 +122,8 @@ angular.module('starter.controllers', [])
 
     //funcion para agregar imagen y id al ejercicio
     $scope.guardarImagenID = function(linkImagen,id_ejercicio) {
-      servicios.guardarImagenEjercicio(linkImagen,id_ejercicio,$scope.localizacion.lat,$scope.localizacion.long);
+      $scope.datosImagen = JSON.parse(linkImagen);
+      servicios.guardarImagenEjercicio($scope.datosImagen.url,id_ejercicio,$scope.localizacion.lat,$scope.localizacion.long);
     }
 
     //funcion para guardar los datos del ejercicio recién agregado
@@ -160,9 +162,8 @@ angular.module('starter.controllers', [])
                     message: "Ejercicio guardado"
                 });
                 //subir imagen al servidor 
-                $scope.subirImagen();
-                servicios.getIdEjercicio($scope.datosEjercicio.nombreEjercicio).succes(function(data){
-                  $scope.guardarImagenID($scope.ubicacionImagen,data[0].id_ejercicio);
+                servicios.getIdEjercicio($scope.datosEjercicio.nombreEjercicio).success(function(data){
+                  $scope.subirImagen(data[0].id_ejercicio);
                 })
                 $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
             });
