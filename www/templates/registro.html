@@ -20,9 +20,13 @@
 	  		<label class="item item-input">
 	    		<input type="password" ng-model="datosUsuario.password" ng-minlength="5" placeholder="Contraseña">
 	  		</label>
+	  		<!-- Aqui se despliega la imagen que escoge el usuario -->
+	  		<img ng-show="imgURI !== undefined" src="{{imgURI}}" style="width:100%; height: auto;"/>
 		</div>
 		<button class="button button-full button-dark" ng-disabled="!datosUsuario.email || !datosUsuario.password || !datosUsuario.nombre || !datosUsuario.apPaterno || !datosUsuario.apMaterno || !datosUsuario.usuario" ng-click="registrarUsuario()">
   			Registrarse
 		</button>
+		<!--Boton para abrir la camara-->
+		<button class="button button-full button-positive" ng-click="abrirCamara()">Tomar foto de perfil</button>
 	</ion-content>
 </ion-view>
