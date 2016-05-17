@@ -69,6 +69,13 @@ angular.module('starter.services', [])
         //función encargada de borrar una rutina de un usuario
         deleteRutinaUsuario: function(id_rutina,id_usuario) {
             return $http.get(baseUrl+'Rutinas.php?op=deleteRoutineUser&id_usuario='+id_usuario+'&id_rutina='+id_rutina);
+        },
+        //función encargada de obtener el id del ejercicio con su nombre
+        getIdEjercicio: function(nombre){
+            return $http.get(baseUrl+'Ejercicio.php?op=getIdByName&name='+nombre); 
+        },
+        guardarImagenEjercicio: function(linkImagen,id_ejercicio,latitud,longitud){
+            return $http.get(baseUrl+'Ejercicio.php?op=guardarImagenEjercicio&link='+linkImagen+'&id_exercise='+id_ejercicio+'&latitud='+latitud+'&longitud='+longitud);
         }
     };
 })

@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
 
 //$cordovaCamera es para abrir la camara y tomar una foto
 //$cordovaGeolocation es para obtener la localización del usuario
-.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaCamera,$cordovaGeolocation){
+.controller('ControllerAgregarEjercicio', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window,$cordovaCamera,$cordovaGeolocation,$cordovaFileTransfer){
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $scope.localizacion = {
@@ -78,15 +78,15 @@ angular.module('starter.controllers', [])
     //funcion para abrir la camara
     $scope.abrirCamara = function() {
       var options = { 
-        quality : 80, 
+        quality : 10, 
         destinationType : Camera.DestinationType.DATA_URL, 
-        sourceType : Camera.PictureSourceType.CAMERA, 
-        allowEdit : false,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 300,
-        targetHeight: 300,
-        popoverOptions: CameraPopoverOptions,
-        saveToPhotoAlbum: false
+        //sourceType : Camera.PictureSourceType.CAMERA, 
+        //allowEdit : false,
+        encodingType: Camera.EncodingType.JPEG
+        //targetWidth: 300,
+        //targetHeight: 300,
+        //popoverOptions: CameraPopoverOptions,
+        //saveToPhotoAlbum: false
       };
    
       $cordovaCamera.getPicture(options).then(function(imageData) {
@@ -96,6 +96,36 @@ angular.module('starter.controllers', [])
       });
     }
     
+    $scope.ubicacionImagen = "";
+
+    $scope.subirImagen = function(id_ejercicio) {
+      var date = new Date();
+
+      var options = {
+        fileKey: "file",
+        fileName: "image"+date+".jpeg",
+        chunkedMode: false,
+        mimeType: "image/jpeg"
+      };
+
+      $cordovaFileTransfer.upload(encodeURI("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php"),$scope.imgURI,options).then(function(result) {
+        //console.log("SUCCESS: " + JSON.stringify(result.response));
+        //console.log(JSON.stringify(eval("(" + result.response + ")")));
+        $scope.ubicacionImagen = JSON.stringify(eval("(" + result.response + ")"));
+        $scope.guardarImagenID($scope.ubicacionImagen,id_ejercicio);
+      }, function(err) {
+        console.log("ERROR: " + JSON.stringify(err));
+            }, function (progress) {
+              // constant progress updates
+            });
+    }
+
+    //funcion para agregar imagen y id al ejercicio
+    $scope.guardarImagenID = function(linkImagen,id_ejercicio) {
+      $scope.datosImagen = JSON.parse(linkImagen);
+      servicios.guardarImagenEjercicio($scope.datosImagen.url,id_ejercicio,$scope.localizacion.lat,$scope.localizacion.long);
+    }
+
     //funcion para guardar los datos del ejercicio recién agregado
     $scope.datosEjercicio={};
     $scope.guardarEjercicio = function(){
@@ -114,6 +144,11 @@ angular.module('starter.controllers', [])
                 tittle: "Info",
                 message: "Introduzca el link al video del ejercicio"
             });
+        }else if ($scope.imgURI === undefined){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Tomar una foto del equipo necesario"
+            });
         }else{
             $scope.nuevoLink = $scope.modificarLink($scope.datosEjercicio.linkVideo);
             servicios.create({
@@ -126,6 +161,10 @@ angular.module('starter.controllers', [])
                     title: "Info",
                     message: "Ejercicio guardado"
                 });
+                //subir imagen al servidor 
+                servicios.getIdEjercicio($scope.datosEjercicio.nombreEjercicio).success(function(data){
+                  $scope.subirImagen(data[0].id_ejercicio);
+                })
                 $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
             });
         }  
