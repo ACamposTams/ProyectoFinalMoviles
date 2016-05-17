@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
                 tittle: "Info",
                 message: "Introduzca el link al video del ejercicio"
             });
-        }else if (&scope.imgURI !== undefined){
+        }else if ($scope.imgURI === undefined){
             $scope.showAlert({
                 tittle: "Info",
                 message: "Tomar una foto del equipo necesario"

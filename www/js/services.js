@@ -75,7 +75,7 @@ angular.module('starter.services', [])
             return $http.get(baseUrl+'Ejercicio.php?op=getIdByName&name='+nombre); 
         },
         guardarImagenEjercicio: function(linkImagen,id_ejercicio,latitud,longitud){
-            return $http.get(baseUrl+'Ejercicio.php?op=guardarImagenEjercicio&link='+linkImagen+'&id_exercise='+id_ejercicio'&latitud='+latitud'&longitud='+longitud);
+            return $http.get(baseUrl+'Ejercicio.php?op=guardarImagenEjercicio&link='+linkImagen+'&id_exercise='+id_ejercicio+'&latitud='+latitud+'&longitud='+longitud);
         }
     };
 })
