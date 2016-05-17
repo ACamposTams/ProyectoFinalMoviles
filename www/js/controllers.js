@@ -96,6 +96,8 @@ angular.module('starter.controllers', [])
       });
     }
     
+    $scope.ubicacionImagen;
+
     $scope.subirImagen = function() {
       var date = new Date();
 
@@ -107,12 +109,19 @@ angular.module('starter.controllers', [])
       };
 
       $cordovaFileTransfer.upload(encodeURI("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php"),$scope.imgURI,options).then(function(result) {
-        console.log("SUCCESS: " + JSON.stringify(result.response));
+        //console.log("SUCCESS: " + JSON.stringify(result.response));
+        console.log(result.response);
+        $scope.ubicacionImagen = result.response;
       }, function(err) {
         console.log("ERROR: " + JSON.stringify(err));
             }, function (progress) {
               // constant progress updates
             });
+    }
+
+    //funcion para agregar imagen y id al ejercicio
+    $scope.guardarImagenID = function(linkImagen,id_ejercicio) {
+      servicios.guardarImagenEjercicio(linkImagen,id_ejercicio,$scope.localizacion.lat,$scope.localizacion.long);
     }
 
     //funcion para guardar los datos del ejercicio recién agregado
@@ -133,6 +142,11 @@ angular.module('starter.controllers', [])
                 tittle: "Info",
                 message: "Introduzca el link al video del ejercicio"
             });
+        }else if (&scope.imgURI !== undefined){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Tomar una foto del equipo necesario"
+            });
         }else{
             $scope.nuevoLink = $scope.modificarLink($scope.datosEjercicio.linkVideo);
             servicios.create({
@@ -145,6 +159,11 @@ angular.module('starter.controllers', [])
                     title: "Info",
                     message: "Ejercicio guardado"
                 });
+                //subir imagen al servidor 
+                $scope.subirImagen();
+                servicios.getIdEjercicio($scope.datosEjercicio.nombreEjercicio).succes(function(data){
+                  $scope.guardarImagenID($scope.ubicacionImagen,data[0].id_ejercicio);
+                })
                 $window.location.href= '#/side/Ejercicios/'+$stateParams.id_categoria;
             });
         }  
