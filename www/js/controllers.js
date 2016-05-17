@@ -78,7 +78,7 @@ angular.module('starter.controllers', [])
     //funcion para abrir la camara
     $scope.abrirCamara = function() {
       var options = { 
-        quality : 80, 
+        quality : 10, 
         destinationType : Camera.DestinationType.DATA_URL, 
         //sourceType : Camera.PictureSourceType.CAMERA, 
         //allowEdit : false,
@@ -96,19 +96,20 @@ angular.module('starter.controllers', [])
       });
     }
     
-    $scope.subirImagen = function() { 
+    $scope.subirImagen = function() {
+      var date = new Date();
+
       var options = {
-              //var date = new Date();
-              fileKey: "file",
-              fileName: "image.jpeg",
-              chunkedMode: false,
-              mimeType: "image/jpeg"
-            };
-            $cordovaFileTransfer.upload("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php", $scope.imgURI, options).then(function(result) {
-              //alert(result);
-              console.log("SUCCESS: " + JSON.stringify(result.response));
-            }, function(err) {
-              console.log("ERROR: " + JSON.stringify(err));
+        fileKey: "file",
+        fileName: "image"+date+".jpeg",
+        chunkedMode: false,
+        mimeType: "image/jpeg"
+      };
+
+      $cordovaFileTransfer.upload(encodeURI("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php"),$scope.imgURI,options).then(function(result) {
+        console.log("SUCCESS: " + JSON.stringify(result.response));
+      }, function(err) {
+        console.log("ERROR: " + JSON.stringify(err));
             }, function (progress) {
               // constant progress updates
             });
