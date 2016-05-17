@@ -20,8 +20,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   var id_usuario = 0;
   var usuario = "";
   var admin = 0;
-  var usuarioTotal = [id_usuario,usuario,admin];
   var imagenUsuario = "";
+  var usuarioTotal = [id_usuario,usuario,admin,imagenUsuario];
 
   id_usuario.getId = function (idNuevo) {
     id_usuario = idNuevo;

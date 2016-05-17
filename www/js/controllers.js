@@ -37,6 +37,7 @@ angular.module('starter.controllers', [])
         usuario.id_usuario = data[0].id_usuario;
         usuario.usuario = data[0].usuario;
         usuario.admin = data[0].esAdmin;
+        usuario.imagenUsuario = data[0].linkFP;
         $window.location.href= '#/side/home';
       }
       else{
@@ -815,7 +816,11 @@ angular.module('starter.controllers', [])
       });
     };
 
+    var imagenUsuario = ""
+    $scope.imagenUsuario = "";
     $scope.userName = usuario.usuario;
+    $scope.imagenUsuario = usuario.imagenUsuario;
+    imagenUsuario = usuario.imagenUsuario;
 
   //funcion encargada de mostrar el contenido de administrador al ususario si este cuenta con ese permiso
   $scope.showAdmin = function()
