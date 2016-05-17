@@ -456,7 +456,62 @@ angular.module('starter.controllers', [])
 })
 
 //controlador encargado de manejar el registor en la aplicación
-.controller('ControllerRegistro', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios){
+.controller('ControllerRegistro', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$cordovaCamera,$cordovaFileTransfer){
+
+    //funcion para abrir la camara
+    $scope.abrirCamara = function() {
+      var options = { 
+        quality : 10, 
+        destinationType : Camera.DestinationType.DATA_URL, 
+        encodingType: Camera.EncodingType.JPEG
+      };
+   
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        $scope.imgURI = "data:image/jpeg;base64," + imageData;
+      }, function(err) {
+              // An error occured. Show a message to the user
+      });
+    }
+
+    $scope.linkFP = "";
+
+    //funcion para subir la imagen
+    $scope.subirImagen = function(nombre,apPaterno,apMaterno,email,usuario,password) {
+      var date = new Date();
+
+      var options = {
+        fileKey: "file",
+        fileName: "image"+date+".jpeg",
+        chunkedMode: false,
+        mimeType: "image/jpeg"
+      };
+
+      $cordovaFileTransfer.upload(encodeURI("http://ubiquitous.csf.itesm.mx/~pddm-1017817/content/final/Final/upload.php"),$scope.imgURI,options).then(function(result) {
+        //console.log("SUCCESS: " + JSON.stringify(result.response));
+        //console.log(JSON.stringify(eval("(" + result.response + ")")));
+        $scope.linkFP = JSON.stringify(eval("(" + result.response + ")"));
+        $scope.linkFP = JSON.parse($scope.linkFP);
+        servicios.create({
+                nombre: nombre,
+                apPaterno: apPaterno,
+                apMaterno: apMaterno,
+                email: email,
+                usuario: usuario,
+                password: password,
+                linkFP: $scope.linkFP.url
+            },'Usuarios').success(function(){
+                $scope.showAlert({
+                    title: "Info",
+                    message: "Usuario Creado"
+                });
+                $state.go('sidemenu.login');
+            });
+      }, function(err) {
+        console.log("ERROR: " + JSON.stringify(err));
+            }, function (progress) {
+              // constant progress updates
+            });
+    }
 
     //funcion encargada de guardar los datos del nuevo usuario recien registrado utilizando los servicios y los
     //archivos php
@@ -492,21 +547,13 @@ angular.module('starter.controllers', [])
                 tittle: "Info",
                 message: "Introduzca su contraseña"
             });
-        }else{
-            servicios.create({
-                nombre: $scope.datosUsuario.nombre,
-                apPaterno: $scope.datosUsuario.apPaterno,
-                apMaterno: $scope.datosUsuario.apMaterno,
-                email: $scope.datosUsuario.email,
-                usuario: $scope.datosUsuario.usuario,
-                password: $scope.datosUsuario.password
-            },'Usuarios').success(function(data){
-                $scope.showAlert({
-                    title: "Info",
-                    message: "Usuario Creado"
-                });
-                $state.go('sidemenu.login');
+        }else if ($scope.imgURI === undefined){
+            $scope.showAlert({
+                tittle: "Info",
+                message: "Tomar una foto de perfil :)"
             });
+        }else{
+            $scope.subirImagen($scope.datosUsuario.nombre,$scope.datosUsuario.apPaterno,$scope.datosUsuario.apMaterno,$scope.datosUsuario.email,$scope.datosUsuario.usuario,$scope.datosUsuario.password);
         }  
     };
 })
@@ -806,11 +853,34 @@ angular.module('starter.controllers', [])
   $scope.showData = function() {
       servicios.getRoutinesUser(usuario.id_usuario).success(function(data) {
             $scope.datosRutinas = data;
+            $scope.showContent($scope.datosRutinas);
         }).finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
         });
-    };
-    $scope.showData();
+  };
+    
+  $scope.showFinishedData = function() {
+    servicios.getFinishedRoutinesUser(usuario.id_usuario).success(function(data2) {
+      $scope.datosRutinas2 = data2;
+      $scope.showContent($scope.datosRutinas2);
+    }).finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.showContent = function(data) {
+    if (data == [])
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  $scope.showData();
+  $scope.showFinishedData();
 })
 
 //controlador encargado del manejo de la asignación de rutinas a usuarios
@@ -823,7 +893,6 @@ angular.module('starter.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
-    $scope.showData();
 
   //funcion que permite agregarle una rutina a un usuario
   $scope.agregarRutina = function(id_usuario) {
@@ -834,6 +903,8 @@ angular.module('starter.controllers', [])
       });
     })
   }
+
+  $scope.showData();
 })
 
 //controlador encargado de mostrar la información individual de una rutina

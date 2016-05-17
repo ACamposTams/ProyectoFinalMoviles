@@ -4,10 +4,33 @@
 	<ion-refresher pulling-text="Baja para actualizar..." on-refresh="showData()">
         </ion-refresher>
 	        <div class="row responsive-sm" show-Delete = "data.showDelete" show-Reorder = "data.showReorder">
+	            <div class="item item-text-wrap">
+                	<h2>Rutinas Pendientes</h2>
+            	</div>
+            	<br>
+            	<div class="item item-text-wrap" ng-if="showContent()">
+                	<h2>No tienes rutinas pendientes</h2>
+            	</div>
 	            <div class="list" ng-repeat="datosRutina in datosRutinas">
 		  			<div class="item item-button-right">
 			            {{datosRutina.nombreRutina}}
                   		<a class="button" href="#/side/Rutina/{{datosRutina.id_rutina}}">
+                      		<i class="icon ion-chevron-right"></i>
+                  		</a>
+		            </div>
+	            </div>
+	            <br>
+	            <div class="item item-text-wrap">
+                	<h2>Rutinas Terminadas</h2>
+            	</div>
+            	<br>
+            	<div class="item item-text-wrap" ng-if="showContent()">
+                	<h2>No tienes rutinas terminadas</h2>
+            	</div>
+	            <div class="list" ng-repeat="datosRutina2 in datosRutinas2">
+		  			<div class="item item-button-right">
+			            {{datosRutina2.nombreRutina}}
+                  		<a class="button" href="#/side/Rutina/{{datosRutina2.id_rutina}}">
                       		<i class="icon ion-chevron-right"></i>
                   		</a>
 		            </div>
