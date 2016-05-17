@@ -21,6 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   var usuario = "";
   var admin = 0;
   var usuarioTotal = [id_usuario,usuario,admin];
+  var imagenUsuario = "";
 
   id_usuario.getId = function (idNuevo) {
     id_usuario = idNuevo;
@@ -32,6 +33,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
   admin.getAdmin = function (adminNuevo) {
     admin = adminNuevo;
+  }
+
+  imagenUsuario.getImagenUsuario = function (imagenNueva) {
+    imagenUsuario = imagenNueva;
   }
 
   return usuarioTotal;
