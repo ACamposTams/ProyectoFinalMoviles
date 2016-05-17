@@ -95,7 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     views: {
       'menuContent' :{
         templateUrl: "templates/Home.html",
-        controller: 'ControllerHome'
+        controller: 'ControllerHome2'
       }
     }
   })

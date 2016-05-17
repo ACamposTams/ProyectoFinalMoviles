@@ -805,7 +805,56 @@ angular.module('starter.controllers', [])
 })
 
 //controlador encargado de aspectos generales de la aplicación
-.controller('ControllerHome', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+.controller('ControllerHome', function(usuario,$rootScope,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
+   //funcion que establece la forma de los mensaje que se muestran alrededor de la aplicación
+   $scope.showAlert = function(msg) {
+      $ionicPopup.alert({
+          title: msg.title,
+          template: msg.message,
+          okText: 'Ok',
+          okType: 'button-positive'
+      });
+    };
+
+    var imagenUsuario = ""
+    $scope.imagenUsuario = "";
+    $scope.userName = usuario.usuario;
+    $rootScope.imagenUsuario = usuario.imagenUsuario;
+    imagenUsuario = usuario.imagenUsuario;
+
+  //funcion encargada de mostrar el contenido de administrador al ususario si este cuenta con ese permiso
+  $scope.showAdmin = function()
+  {
+    if (usuario.admin == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  //funcion encargada de mostrar el contenido de usuario al usuario si este no cuenta con el permiso de administrador
+  $scope.showUsuario = function()
+  {
+    if (usuario.admin == 1)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  $scope.modificarUsuario = function() {
+    $window.location.href= '#/side/modificarUsuario/'+usuario.id_usuario;
+  }
+})
+
+//controlador encargado de aspectos generales de la aplicación
+.controller('ControllerHome2', function(usuario,$scope,$stateParams,$ionicPopup,$ionicModal,$state,servicios,$window){
    //funcion que establece la forma de los mensaje que se muestran alrededor de la aplicación
    $scope.showAlert = function(msg) {
       $ionicPopup.alert({
