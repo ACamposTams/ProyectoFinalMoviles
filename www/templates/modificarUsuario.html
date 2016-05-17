@@ -23,8 +23,9 @@
 	  		</label>
 		</div>
 		<button class="button button-full button-dark" ng-disabled="!datosUsuario.email || !datosUsuario.password || !datosUsuario.nombre || !datosUsuario.apPaterno || !datosUsuario.apMaterno || !datosUsuario.usuario" ng-click="edit({{datosUsuario.id_usuario}},datosUsuario.nombre,datosUsuario.apPaterno,datosUsuario.apMaterno,datosUsuario.email,datosUsuario.usuario,datosUsuario.password)">
-  			Registrarse
+  			Modificar Cuenta
 		</button>
+		<a class="button button-full button-assertive" ng-click="delete({{datosUsuario.id_usuario}})" ui-sref="sidemenu.login">Eliminar Cuenta</a>
 		</ion-content>
 	</ion-content>
 </ion-view>

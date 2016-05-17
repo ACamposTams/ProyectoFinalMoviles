@@ -849,6 +849,15 @@ angular.module('starter.controllers', [])
         })
     };
 
+  $scope.delete = function(id_usuario) {
+    servicios.delete(id_usuario,"Usuarios").success(function() {
+      $scope.showAlert({
+                        title: "Info",
+                        message: "Usuario Eliminado"
+                    });
+    })
+  }
+
   $scope.showDataId();
 
   //Arreglar que no se tenga que pasar el id para editar 
