@@ -17,6 +17,11 @@
                 </p>
             </div>
           </div>
+          <div class="col"><div class="list card" ng-repeat="datosImagen in datosImagen">
+            <div class="item item-body">
+                <img src="{{datosImagen.link}}" style="width:304px;height:228px;">
+            </div>
+          </div>
           <button id="botonEdicion" class="button button-balanced button-block" ng-if="showAdmin()" ng-click="editModal(datosEjercicio)">Editar Ejercicio</button>
           <button id="botonEliminar" class="button button-assertive button-block" ng-if="showAdmin()" ng-click="delete(datosEjercicio)">Eliminar Ejercicio</button>
       </div></div>

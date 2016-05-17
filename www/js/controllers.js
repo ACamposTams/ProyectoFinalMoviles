@@ -202,7 +202,16 @@ angular.module('starter.controllers', [])
     return $sce.trustAsResourceUrl(src);
   }
 
+  $scope.showImages = function() {
+    servicios.getImages($stateParams.id_ejercicio).success(function(datosImagen) {
+      $scope.datosImagen = datosImagen;
+    }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        }); 
+  }
+
   $scope.showDataId();
+  $scope.showImages();
 
   //funcion para borrar el ejercicio con ayuda de los servicios conectados al php
   $scope.delete = function (datosEjercicio){
@@ -310,7 +319,16 @@ angular.module('starter.controllers', [])
     return $sce.trustAsResourceUrl(src);
   }
 
+  $scope.showImages = function() {
+    servicios.getImages($stateParams.id_ejercicio).success(function(datosImagen) {
+      $scope.datosImagen = datosImagen;
+    }).finally(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        }); 
+  }
+
   $scope.showDataId();
+  $scope.showImages();
 
   //funcion para borrar el ejercicio con ayuda de los servicios conectados al php
   $scope.delete = function (datosEjercicio){

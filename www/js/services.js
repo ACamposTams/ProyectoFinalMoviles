@@ -76,6 +76,9 @@ angular.module('starter.services', [])
         },
         guardarImagenEjercicio: function(linkImagen,id_ejercicio,latitud,longitud){
             return $http.get(baseUrl+'Ejercicio.php?op=guardarImagenEjercicio&link='+linkImagen+'&id_exercise='+id_ejercicio+'&latitud='+latitud+'&longitud='+longitud);
+        },
+        getImages: function(id_ejercicio){
+            return $http.get(baseUrl+'Ejercicio.php?op=getImages&id_ejercicio='+id_ejercicio); 
         }
     };
 })
