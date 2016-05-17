@@ -79,6 +79,10 @@ angular.module('starter.services', [])
         },
         getImages: function(id_ejercicio){
             return $http.get(baseUrl+'Ejercicio.php?op=getImages&id_ejercicio='+id_ejercicio); 
-        }
+        },
+        //funcion encargada de obtener las rutinas de un usuario en específico
+        getFinishedRoutinesUser: function(id_usuario) {
+            return $http.get(baseUrl+'Rutinas.php?op=getFinishedRoutinesUser&id_usuario='+id_usuario);
+        },
     };
 })

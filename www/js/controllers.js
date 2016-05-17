@@ -806,11 +806,34 @@ angular.module('starter.controllers', [])
   $scope.showData = function() {
       servicios.getRoutinesUser(usuario.id_usuario).success(function(data) {
             $scope.datosRutinas = data;
+            $scope.showContent($scope.datosRutinas);
         }).finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
         });
-    };
-    $scope.showData();
+  };
+    
+  $scope.showFinishedData = function() {
+    servicios.getFinishedRoutinesUser(usuario.id_usuario).success(function(data2) {
+      $scope.datosRutinas2 = data2;
+      $scope.showContent($scope.datosRutinas2);
+    }).finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.showContent = function(data) {
+    if (data == [])
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  $scope.showData();
+  $scope.showFinishedData();
 })
 
 //controlador encargado del manejo de la asignación de rutinas a usuarios
@@ -823,7 +846,6 @@ angular.module('starter.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
-    $scope.showData();
 
   //funcion que permite agregarle una rutina a un usuario
   $scope.agregarRutina = function(id_usuario) {
@@ -834,6 +856,8 @@ angular.module('starter.controllers', [])
       });
     })
   }
+
+  $scope.showData();
 })
 
 //controlador encargado de mostrar la información individual de una rutina
